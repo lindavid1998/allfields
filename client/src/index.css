@@ -1,11 +1,17 @@
-body {
-  margin: 0;
-  font-family: Manrope,Arial,sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+:root {
+	--main-bg-color: #ffffff;
+	--light-bg-color: #f6f5e8;
+	--dark-bg-color: #132700;
+	--main-btn-color: #2c5601;
+	--bright-btn-color: #5de372;
+	--light-btn-color: #efefee;
+	--main-text-color: #2b381f;
+	--gray-text-color: #737c6d;
+	--light-text-color: #efefec;
 }
 
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+body {
+	margin: 0;
+	font-family: Manrope, Arial, sans-serif;
+	box-sizing: border-box;
 }
