@@ -9,6 +9,7 @@ const Wrapper = styled.nav`
 	align-items: center;
   height: 64px;
 	width: 100%;
+	max-width: var(--max-width);
   padding: 0 16px;
   gap: 10px;
 `;
@@ -16,6 +17,7 @@ const Wrapper = styled.nav`
 const StyledH1 = styled.h1`
   margin-right: auto;
 	color: var(--main-text-color);
+	cursor: pointer;
 `
 
 const Navbar = () => {
