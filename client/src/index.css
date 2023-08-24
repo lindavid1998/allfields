@@ -8,10 +8,15 @@
 	--main-text-color: #2b381f;
 	--gray-text-color: #737c6d;
 	--light-text-color: #efefec;
+	--max-width: 950px;
+	--home-padding: 30px 60px;
 }
 
 body {
 	margin: 0;
 	font-family: Manrope, Arial, sans-serif;
+}
+
+* {
 	box-sizing: border-box;
 }
