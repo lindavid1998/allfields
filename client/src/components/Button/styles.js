@@ -54,4 +54,7 @@ export const StyledButton = styled.button`
 	border-radius: 9999px;
 	${(props) => getSizeStyles(props.size)}
 	${(props) => getColorStyles(props.color)}
+  &:hover {
+    filter: brightness(85%);
+  }
 `;
