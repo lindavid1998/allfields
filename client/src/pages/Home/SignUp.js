@@ -1,0 +1,60 @@
+import React from 'react';
+import styled from 'styled-components';
+import Button from '../../components/Button';
+import imgSrc from '../../assets/football-fans.webp';
+
+const Wrapper = styled.div`
+  display: flex;
+  padding: var(--home-padding);
+  width: 100%;
+`
+
+const Content = styled.div`
+	display: flex;
+	margin: 0 auto;
+  width: 100%;
+	max-width: var(--max-width);
+  justify-content: space-between;
+  gap: 25px;
+`;
+
+const Text = styled.div`
+	display: flex;
+	flex-direction: column;
+	gap: 10px;
+  align-items: start;
+`;
+
+const MainText = styled.div`
+  font-weight: bold;
+  font-size: 1.4rem;
+`
+
+const Subtext = styled.div`
+  margin-bottom: 15px;
+  font-size: 1.2rem;
+`
+
+const Img = styled.img`
+  width: 500px;
+  max-height: 300px;
+  object-fit: cover;
+  border-radius: 5%;
+`
+
+const SignUp = () => {
+  return (
+		<Wrapper>
+			<Content>
+        <Img src={imgSrc} />
+        <Text>
+          <MainText>Football has no boundaries</MainText>
+          <Subtext>Join the largest community in the world today</Subtext>
+          <Button text='Sign up' color='primary' size='medium' />
+        </Text>
+      </Content>
+		</Wrapper>
+	);
+};
+
+export default SignUp;

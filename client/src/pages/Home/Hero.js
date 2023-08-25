@@ -5,6 +5,7 @@ import heroImg from '../../assets/soccer-background.jpeg';
 
 const StyledH1 = styled.h1`
 	color: #fff;
+	font-size: 50px;
 `;
 
 const Wrapper = styled.div`
@@ -36,7 +37,7 @@ const Hero = () => {
 			<Img alt='Soccer balls in front of goal' src={heroImg} />
 			<Text>
 				<StyledH1>Enjoy the beautiful game</StyledH1>
-				<Button size='small' text='Find nearby fields' color='bright'></Button>
+				<Button size='medium' text='Find nearby fields' color='bright'></Button>
 			</Text>
 		</Wrapper>
 	);
