@@ -7,11 +7,12 @@ const Content = styled.form`
 	display: flex;
 	flex-direction: column;
 	gap: 20px;
-	border: 1px solid black;
 	border-radius: 10px;
 	padding: 32px 80px;
 	width: fit-content;
-  align-items: stretch;
+	align-items: stretch;
+	background-color: white;
+	box-shadow: 0 0 8px rgba(0, 0, 0, 0.08);
 `;
 
 const StyledH2 = styled.h1`
@@ -22,7 +23,7 @@ const StyledP = styled.p`
 	font-size: 1.1rem;
 	margin: 0 auto;
 	color: var(--main-text-color);
-`
+`;
 
 const StyledA = styled.a`
 	&:hover {
@@ -31,7 +32,7 @@ const StyledA = styled.a`
 	&:visited {
 		color: inherit;
 	}
-`
+`;
 
 const Form = () => {
 	return (
