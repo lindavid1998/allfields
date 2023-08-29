@@ -1,7 +1,8 @@
 import React from 'react'
 import styled from 'styled-components';
 import Navbar from '../../components/Navbar';
-import Form from './Form';
+// import Form from './Form';
+import { LogInForm } from '../../components/Form/Form';
 import backgroundImage from '../../assets/pexels-stanley-morales-3148452.jpg';
 
 const Wrapper = styled.div`
@@ -29,7 +30,7 @@ const Login = () => {
 		<Wrapper>
 			<Navbar></Navbar>
 			<Content>
-				<Form></Form>
+				<LogInForm></LogInForm>
 			</Content>
 		</Wrapper>
 	);

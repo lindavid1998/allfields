@@ -9,8 +9,8 @@ const Label = styled.label`
 	padding: 0 4px;
 	opacity: 0;
 	transition: opacity 0.4s ease;
-  color: inherit;
-  font-size: 0.9rem;
+	color: inherit;
+	font-size: 0.9rem;
 `;
 
 const Input = styled.input`
@@ -28,29 +28,31 @@ const Input = styled.input`
 		color: transparent;
 	}
 	&:not(:placeholder-shown) + ${Label} {
-    opacity: 1;
-  }
+		opacity: 1;
+	}
 `;
 
 const Wrapper = styled.div`
 	display: flex;
 	flex-direction: column;
 	position: relative;
-  color: var(--main-text-color);
+	color: var(--main-text-color);
 	& ${Input}:focus + ${Label} {
 		opacity: 1;
 	}
 `;
 
-const TextInput = ({ label, type, placeholder }) => {
-	const capitalize = (word) => {
-		return word.charAt(0).toUpperCase() + word.slice(1);
-	};
-
+const TextInput = ({ label, type, placeholder, name }) => {
 	return (
 		<Wrapper>
-			<Input type={type} id={label} name={label} placeholder={placeholder} required/>
-			<Label for={label}>{capitalize(label)}</Label>
+			<Input
+				type={type}
+				id={name}
+				name={name}
+				placeholder={placeholder}
+				required
+			/>
+			<Label for={name}>{label}</Label>
 		</Wrapper>
 	);
 };
