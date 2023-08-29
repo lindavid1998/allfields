@@ -52,9 +52,10 @@ export const StyledButton = styled.button`
 	cursor: pointer;
 	transition: all 0.2s ease-out;
 	border-radius: 9999px;
+  width: ${props => props.stretched ? "100%" : "fit-content"};
 	${(props) => getSizeStyles(props.size)}
 	${(props) => getColorStyles(props.color)}
   &:hover {
-    filter: brightness(85%);
-  }
+		filter: brightness(85%);
+	}
 `;

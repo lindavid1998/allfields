@@ -2,6 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import Button from '../../components/Button';
 import TextInput from '../../components/Form/TextInput';
+import { Link } from 'react-router-dom';
 
 const Content = styled.form`
 	display: flex;
@@ -29,8 +30,9 @@ const StyledP = styled.p`
 	color: var(--main-text-color);
 `;
 
-const StyledA = styled.a`
+const StyledLink = styled(Link)`
 	margin: 0 4px;
+	text-decoration: underline;
 	&:hover {
 		color: var(--gray-text-color);
 	}
@@ -41,6 +43,7 @@ const StyledA = styled.a`
 
 const TOS = styled.p`
 	font-size: 0.8rem;
+	max-width: 450px;
 `;
 
 export const SignUpForm = () => {
@@ -71,9 +74,11 @@ export const SignUpForm = () => {
 				type='password'
 				placeholder='Password'
 			/>
-			<Button size='medium' text='Sign up' type='submit' />
+			<Link to='/signup'>
+				<Button size='medium' text='Sign up' type='submit' stretched />
+			</Link>
 			<StyledP>
-				Already have an account?<StyledA href=''>Log in</StyledA>
+				Already have an account? <StyledLink to='/login'>Log in</StyledLink>
 			</StyledP>
 			<TOS>
 				By continuing to use AllFields, you agree to our Terms of Service and
@@ -99,10 +104,18 @@ export const LogInForm = () => {
 				type='password'
 				placeholder='Password'
 			/>
-			<Button size='medium' text='Log in' type='submit'></Button>
-			<Button size='medium' text='Forgot your password?' color='light'></Button>
+			<Link to='/login'>
+				<Button size='medium' text='Log in' type='submit' stretched />
+			</Link>
+			<Button
+				size='medium'
+				text='Forgot your password?'
+				color='light'
+				stretched
+			/>
 			<StyledP>
-				Don't have an account?<StyledA href=''>Sign up for free</StyledA>
+				Don't have an account?
+				<StyledLink to='/signup'>Sign up for free</StyledLink>
 			</StyledP>
 		</Content>
 	);

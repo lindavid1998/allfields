@@ -2,6 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import Button from '../Button';
 import Avatar from '../Avatar';
+import { Link } from 'react-router-dom';
 
 const Wrapper = styled.nav`
 	display: flex;
@@ -20,17 +21,25 @@ const StyledH1 = styled.h1`
 	cursor: pointer;
 `
 
+const StyledLink = styled(Link)`
+	margin-right: auto;
+`
+
 const Navbar = () => {
 	return (
 		<Wrapper>
-			<StyledH1>AllFields</StyledH1>
+			<StyledLink to='/'>
+				<StyledH1>AllFields</StyledH1>
+			</StyledLink>
 			<Button
 				text='Try AllFields+ for free'
 				color='bright'
 				size='small'
 			></Button>
-      <Button text='Log in' color='light' size='small'></Button>
-      <Avatar></Avatar>
+			<Link to='/login'>
+				<Button text='Log in' color='light' size='small'></Button>
+			</Link>
+			{/* <Avatar></Avatar> */}
 		</Wrapper>
 	);
 };

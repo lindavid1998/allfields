@@ -2,6 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import Button from '../../components/Button';
 import imgSrc from '../../assets/football-fans.webp';
+import { Link } from 'react-router-dom';
 
 const Wrapper = styled.div`
   display: flex;
@@ -46,13 +47,15 @@ const SignUp = () => {
   return (
 		<Wrapper>
 			<Content>
-        <Img src={imgSrc} />
-        <Text>
-          <MainText>Football has no boundaries</MainText>
-          <Subtext>Join the largest community in the world today</Subtext>
-          <Button text='Sign up' color='primary' size='medium' />
-        </Text>
-      </Content>
+				<Img src={imgSrc} />
+				<Text>
+					<MainText>Football has no boundaries</MainText>
+					<Subtext>Join the largest community in the world today</Subtext>
+					<Link to='/signup'>
+						<Button text='Sign up' color='primary' size='medium' />
+					</Link>
+				</Text>
+			</Content>
 		</Wrapper>
 	);
 };

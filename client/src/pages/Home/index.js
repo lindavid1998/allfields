@@ -17,12 +17,12 @@ const Wrapper = styled.div`
 const Home = () => {
 	return (
 		<Wrapper>
-			<Navbar></Navbar>
-			<Hero></Hero>
-			<Subhero></Subhero>
-			<SignUp></SignUp>
-			<Quotes></Quotes>
-			<Footer></Footer>
+			<Navbar />
+			<Hero />
+			<Subhero />
+			<SignUp />
+			<Quotes />
+			<Footer />
 		</Wrapper>
 	);
 };
