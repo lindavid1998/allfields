@@ -1,31 +1,54 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import Button from '../Button';
 import Avatar from '../Avatar';
 import { Link } from 'react-router-dom';
+import { auth } from '../../firebase.js';
+import { signOut } from 'firebase/auth';
 
 const Wrapper = styled.nav`
 	display: flex;
 	justify-content: space-between;
 	align-items: center;
-  height: 64px;
+	height: 64px;
 	width: 100%;
 	max-width: var(--max-width);
-  padding: 0 16px;
-  gap: 10px;
+	padding: 0 16px;
+	gap: 10px;
 `;
 
 const StyledH1 = styled.h1`
-  margin-right: auto;
+	margin-right: auto;
 	color: var(--main-text-color);
 	cursor: pointer;
-`
+`;
 
 const StyledLink = styled(Link)`
 	margin-right: auto;
-`
+`;
 
 const Navbar = () => {
+	const [user, setUser] = useState(null);
+	const navigate = useNavigate();
+
+	useEffect(() => {
+		const unsubscribe = auth.onAuthStateChanged((user) => {
+			setUser(user);
+		});
+
+		return () => unsubscribe();
+	}, []);
+
+	const logOut = async () => {
+		try {
+			await signOut(auth);
+			navigate('/auth-status');
+		} catch (err) {
+			console.log(err);
+		}
+	};
+
 	return (
 		<Wrapper>
 			<StyledLink to='/'>
@@ -36,9 +59,14 @@ const Navbar = () => {
 				color='bright'
 				size='small'
 			></Button>
-			<Link to='/login'>
-				<Button text='Log in' color='light' size='small'></Button>
-			</Link>
+			{user ? (
+				<Button text='Log out' color='white' size='small' onClick={logOut} />
+			) : (
+				<Link to='/sign-in'>
+					<Button text='Log in' color='light' size='small' />
+				</Link>
+			)}
+
 			{/* <Avatar></Avatar> */}
 		</Wrapper>
 	);

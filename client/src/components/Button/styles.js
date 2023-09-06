@@ -7,21 +7,31 @@ const SIZES = {
 };
 
 const COLORS = {
-  primary: {
-    borderColor: '--main-btn-color',
-    bgColor: '--main-btn-color',
-    textColor: '--main-bg-color'
-  },
-  bright: {
-    borderColor: '--bright-btn-color',
-    bgColor: '--bright-btn-color',
-    textColor: '--main-text-color'
-  },
-  light: {
-    borderColor: '--light-btn-color',
-    bgColor: '--light-btn-color',
-    textColor: '--main-text-color'
-  }
+	primary: {
+		borderColor: '--main-btn-color',
+		bgColor: '--main-btn-color',
+		textColor: '--main-bg-color',
+	},
+	bright: {
+		borderColor: '--bright-btn-color',
+		bgColor: '--bright-btn-color',
+		textColor: '--main-text-color',
+	},
+	light: {
+		borderColor: '--light-btn-color',
+		bgColor: '--light-btn-color',
+		textColor: '--main-text-color',
+	},
+	blue: {
+		bgColor: '--blue-btn-color',
+		borderColor: '--blue-btn-color',
+		textColor: '--main-bg-color',
+	},
+	white: {
+		borderColor: '--main-bg-color',
+		bgColor: '--main-bg-color',
+		textColor: '--main-text-color',
+	},
 };
 
 const getSizeStyles = (size) => {

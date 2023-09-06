@@ -1,33 +1,32 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
+import Landing from './pages/Landing';
+import SignIn from './pages/SignIn';
+import SignUp from './pages/SignUp';
 import Home from './pages/Home';
-import Login from './pages/Login';
-import SignUp from './pages/SignUp'
-import { Route, Routes } from "react-router-dom"
+import Navbar from './components/Navbar';
+import AuthStatus from './components/Auth';
+import { Route, Routes } from 'react-router-dom';
+import styled from 'styled-components';
+
+const Wrapper = styled.div`
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	width: 100vw;
+`;
 
 function App() {
-	// const [message, setMessage] = useState('');
-
-	// useEffect(() => {
-	// 	fetch('http://localhost:8000/')
-	// 		.then((res) => res.json())
-	// 		.then((data) => setMessage(data.message));
-	// }, []);
-
-	// return (
-		// <div>
-			// 	<Home></Home>
-			// 	{/* <h1>{message}</h1> */}
-			// 	{/* <Login></Login> */}
-			// 	{/* <SignUp></SignUp> */}
-		// </div>
-	// )
-
 	return (
-		<Routes>
-			<Route path='/' element={<Home />} />
-			<Route path='/signup' element={<SignUp />} />
-			<Route path='/login' element={<Login />} />
-		</Routes>
+		<Wrapper>
+			<Navbar />
+			<Routes>
+				<Route path='/' element={<Landing />} />
+				<Route path='/sign-up' element={<SignUp />} />
+				<Route path='/sign-in' element={<SignIn />} />
+				<Route path='/home' element={<Home />} />
+				<Route path='/auth-status' element={<AuthStatus />} />
+			</Routes>
+		</Wrapper>
 	);
 }
 

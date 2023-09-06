@@ -1,8 +1,15 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
-import Button from '../../components/Button';
-import TextInput from '../../components/Form/TextInput';
+import Button from '../Button';
+import TextInput from './TextInput';
 import { Link } from 'react-router-dom';
+import { auth, provider } from '../../firebase.js';
+import {
+	createUserWithEmailAndPassword,
+	signInWithEmailAndPassword,
+	signInWithPopup,
+} from 'firebase/auth';
+import { useNavigate } from 'react-router-dom';
 
 const Content = styled.form`
 	display: flex;
@@ -33,6 +40,7 @@ const StyledP = styled.p`
 const StyledLink = styled(Link)`
 	margin: 0 4px;
 	text-decoration: underline;
+	color: var(--main-text-color);
 	&:hover {
 		color: var(--gray-text-color);
 	}
@@ -47,38 +55,66 @@ const TOS = styled.p`
 `;
 
 export const SignUpForm = () => {
+	// const [firstName, setFirstName] = useState('');
+	// const [lastName, setLastName] = useState('');
+	const [email, setEmail] = useState('');
+	const [password, setPassword] = useState('');
+	const [error, setError] = useState('');
+	const navigate = useNavigate();
+
+	const SignUp = async () => {
+		try {
+			const userCredential = await createUserWithEmailAndPassword(
+				auth,
+				email,
+				password
+			);
+			const user = userCredential.user;
+			navigate('/auth-status');
+		} catch (error) {
+			setError(error.message);
+		}
+	};
+
 	return (
 		<Content>
 			<StyledH1>Create your free account</StyledH1>
-			<TextInput
+			{/* <TextInput
 				name='firstName'
 				label='First name'
 				type='text'
 				placeholder='First name'
+				value={firstName}
+				onChange={(e) => setFirstName(e.target.value)}
 			/>
 			<TextInput
 				name='lastName'
 				label='Last name'
 				type='text'
 				placeholder='Last name'
-			/>
+				value={lastName}
+				onChange={(e) => setLastName(e.target.value)}
+			/> */}
 			<TextInput
 				name='email'
 				label='Email'
 				type='email'
 				placeholder='Email address'
+				value={email}
+				onChange={(e) => setEmail(e.target.value)}
 			/>
 			<TextInput
 				name='password'
 				label='Password'
 				type='password'
 				placeholder='Password'
+				value={password}
+				onChange={(e) => setPassword(e.target.value)}
 			/>
-			<Link to='/signup'>
-				<Button size='medium' text='Sign up' type='submit' stretched />
-			</Link>
+			{error ? <p>{error}</p> : null}
+			<Button size='medium' text='Sign up' stretched='true' onClick={SignUp} />
 			<StyledP>
-				Already have an account? <StyledLink to='/login'>Log in</StyledLink>
+				Already have an account? <StyledLink to='/sign-in'>Log in</StyledLink>
 			</StyledP>
 			<TOS>
 				By continuing to use AllFields, you agree to our Terms of Service and
@@ -88,7 +124,35 @@ export const SignUpForm = () => {
 	);
 };
 
-export const LogInForm = () => {
+export const SignInForm = () => {
+	const [email, setEmail] = useState('');
+	const [password, setPassword] = useState('');
+	const [error, setError] = useState('');
+	const navigate = useNavigate();
+
+	const SignIn = async () => {
+		try {
+			const userCredential = await signInWithEmailAndPassword(
+				auth,
+				email,
+				password
+			);
+			const user = userCredential.user;
+			navigate('/auth-status');
+		} catch (error) {
+			setError(error.message);
+		}
+	};
+
+	const SignInWithGoogle = async () => {
+		try {
+			await signInWithPopup(auth, provider);
+			navigate('/auth-status');
+		} catch (error) {
+			setError(error.message);
+		}
+	};
+
 	return (
 		<Content>
 			<StyledH1>Welcome back!</StyledH1>
@@ -97,25 +161,35 @@ export const LogInForm = () => {
 				label='Email'
 				type='email'
 				placeholder='Email address'
+				value={email}
+				onChange={(e) => setEmail(e.target.value)}
 			/>
 			<TextInput
 				name='password'
 				label='Password'
 				type='password'
 				placeholder='Password'
+				value={password}
+				onChange={(e) => setPassword(e.target.value)}
 			/>
-			<Link to='/login'>
-				<Button size='medium' text='Log in' type='submit' stretched />
-			</Link>
+			{error ? <p>{error}</p> : null}
+			<Button size='medium' text='Log in' stretched='true' onClick={SignIn} />
 			<Button
 				size='medium'
 				text='Forgot your password?'
-				color='light'
-				stretched
+				color='white'
+				stretched='true'
+			/>
+			<Button
+				size='medium'
+				text='Continue with Google'
+				color='blue'
+				stretched='true'
+				onClick={SignInWithGoogle}
 			/>
 			<StyledP>
 				Don't have an account?
-				<StyledLink to='/signup'>Sign up for free</StyledLink>
+				<StyledLink to='/sign-up'>Sign up for free</StyledLink>
 			</StyledP>
 		</Content>
 	);
