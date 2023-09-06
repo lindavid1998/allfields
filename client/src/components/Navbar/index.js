@@ -15,7 +15,7 @@ const Wrapper = styled.nav`
 	width: 100%;
 	max-width: var(--max-width);
 	padding: 0 16px;
-	gap: 10px;
+	gap: 25px;
 `;
 
 const StyledH1 = styled.h1`
@@ -60,14 +60,12 @@ const Navbar = () => {
 				size='small'
 			></Button>
 			{user ? (
-				<Button text='Log out' color='white' size='small' onClick={logOut} />
+				<Avatar />
 			) : (
 				<Link to='/sign-in'>
 					<Button text='Log in' color='light' size='small' />
 				</Link>
 			)}
-
-			{/* <Avatar></Avatar> */}
 		</Wrapper>
 	);
 };
