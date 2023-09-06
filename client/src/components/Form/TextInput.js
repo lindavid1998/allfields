@@ -42,7 +42,7 @@ const Wrapper = styled.div`
 	}
 `;
 
-const TextInput = ({ label, type, placeholder, name }) => {
+const TextInput = ({ label, type, placeholder, name, onChange }) => {
 	return (
 		<Wrapper>
 			<Input
@@ -50,9 +50,10 @@ const TextInput = ({ label, type, placeholder, name }) => {
 				id={name}
 				name={name}
 				placeholder={placeholder}
+				onChange={onChange}
 				required
 			/>
-			<Label for={name}>{label}</Label>
+			<Label htmlFor={name}>{label}</Label>
 		</Wrapper>
 	);
 };
