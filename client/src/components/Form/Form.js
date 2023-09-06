@@ -3,13 +3,14 @@ import styled from 'styled-components';
 import Button from '../Button';
 import TextInput from './TextInput';
 import { Link } from 'react-router-dom';
-import { auth, provider } from '../../firebase.js';
+import { auth, provider, db, addUser } from '../../firebase.js';
 import {
 	createUserWithEmailAndPassword,
 	signInWithEmailAndPassword,
 	signInWithPopup,
 } from 'firebase/auth';
 import { useNavigate } from 'react-router-dom';
+import { ref, get } from 'firebase/database';
 
 const Content = styled.form`
 	display: flex;
@@ -55,8 +56,8 @@ const TOS = styled.p`
 `;
 
 export const SignUpForm = () => {
-	// const [firstName, setFirstName] = useState('');
-	// const [lastName, setLastName] = useState('');
+	const [firstName, setFirstName] = useState('');
+	const [lastName, setLastName] = useState('');
 	const [email, setEmail] = useState('');
 	const [password, setPassword] = useState('');
 	const [error, setError] = useState('');
@@ -69,7 +70,8 @@ export const SignUpForm = () => {
 				email,
 				password
 			);
-			const user = userCredential.user;
+			const userId = userCredential.user.uid;
+			addUser(userId, firstName, lastName, email);
 			navigate('/auth-status');
 		} catch (error) {
 			setError(error.message);
@@ -79,7 +81,7 @@ export const SignUpForm = () => {
 	return (
 		<Content>
 			<StyledH1>Create your free account</StyledH1>
-			{/* <TextInput
+			<TextInput
 				name='firstName'
 				label='First name'
 				type='text'
@@ -94,7 +96,7 @@ export const SignUpForm = () => {
 				placeholder='Last name'
 				value={lastName}
 				onChange={(e) => setLastName(e.target.value)}
-			/> */}
+			/>
 			<TextInput
 				name='email'
 				label='Email'
@@ -132,12 +134,7 @@ export const SignInForm = () => {
 
 	const SignIn = async () => {
 		try {
-			const userCredential = await signInWithEmailAndPassword(
-				auth,
-				email,
-				password
-			);
-			const user = userCredential.user;
+			await signInWithEmailAndPassword(auth, email, password);
 			navigate('/auth-status');
 		} catch (error) {
 			setError(error.message);
@@ -146,7 +143,22 @@ export const SignInForm = () => {
 
 	const SignInWithGoogle = async () => {
 		try {
-			await signInWithPopup(auth, provider);
+			const userCredential = await signInWithPopup(auth, provider);
+			const user = userCredential.user;
+			const userId = user.uid;
+			const email = user.email;
+			const fullName = user.displayName;
+			const [firstName, lastName] = fullName.split(' ');
+
+			// reference uid subtree in db
+			const userDbRef = ref(db, 'users/' + userId);
+			const snapshot = await get(userDbRef);
+
+			// if uid subtree does not exist in db, add it
+			if (!snapshot.exists()) {
+				addUser(userId, firstName, lastName, email);
+			}
+
 			navigate('/auth-status');
 		} catch (error) {
 			setError(error.message);
