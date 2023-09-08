@@ -2,7 +2,6 @@ import React from 'react';
 import Landing from './pages/Landing';
 import SignIn from './pages/SignIn';
 import SignUp from './pages/SignUp';
-import Home from './pages/Home';
 import Navbar from './components/Navbar';
 import AuthStatus from './components/Auth';
 import { Route, Routes } from 'react-router-dom';
@@ -23,7 +22,6 @@ function App() {
 				<Route path='/' element={<Landing />} />
 				<Route path='/sign-up' element={<SignUp />} />
 				<Route path='/sign-in' element={<SignIn />} />
-				<Route path='/home' element={<Home />} />
 				<Route path='/auth-status' element={<AuthStatus />} />
 			</Routes>
 		</Wrapper>
