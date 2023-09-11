@@ -3,6 +3,7 @@ import Landing from './pages/Landing';
 import SignIn from './pages/SignIn';
 import SignUp from './pages/SignUp';
 import Navbar from './components/Navbar';
+import Fields from './pages/Fields';
 import AuthStatus from './components/Auth';
 import { Route, Routes } from 'react-router-dom';
 import styled from 'styled-components';
@@ -23,6 +24,7 @@ function App() {
 				<Route path='/sign-up' element={<SignUp />} />
 				<Route path='/sign-in' element={<SignIn />} />
 				<Route path='/auth-status' element={<AuthStatus />} />
+				<Route path='/fields' element={<Fields />} />
 			</Routes>
 		</Wrapper>
 	);

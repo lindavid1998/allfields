@@ -2,6 +2,7 @@ import React from 'react';
 import Button from '../../components/Button';
 import styled from 'styled-components';
 import heroImg from '../../assets/soccer-background.jpeg';
+import { Link } from 'react-router-dom';
 
 const StyledH1 = styled.h1`
 	color: #fff;
@@ -37,10 +38,13 @@ const Hero = () => {
 			<Img alt='Soccer balls in front of goal' src={heroImg} />
 			<Text>
 				<StyledH1>Enjoy the beautiful game</StyledH1>
-				<Button size='medium' text='Find nearby fields' color='bright'></Button>
+				<Link to='/fields'>
+					<Button size='medium' text='Find nearby fields' color='bright' />
+				</Link>
 			</Text>
 		</Wrapper>
 	);
 };
+
 
 export default Hero;
