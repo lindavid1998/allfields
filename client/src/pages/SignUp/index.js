@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import { SignUpForm } from '../../components/Form/Form';
+import { SignUpForm } from '../../components/Form/AuthForm';
 import backgroundImage from '../../assets/pexels-tembela-bohle-1884574.jpg';
 
 const Content = styled.div`
