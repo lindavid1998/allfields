@@ -39,7 +39,7 @@ const Fields = () => {
 				data.map((field, index) => (
 					<Listing
 						key={index}
-						index={index}
+						id={index}
 						name={field.name}
 						neighborhood={field.neighborhood}
 						address={field.address}

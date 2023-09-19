@@ -29,6 +29,11 @@ export const addUser = (userId, firstName, lastName, email) => {
 	}).catch((err) => console.error(err));
 };
 
+export const getUserId = (auth) => {
+	const currentUser = auth.currentUser;
+	return currentUser ? currentUser.uid : null;
+};
+
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
 

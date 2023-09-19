@@ -5,6 +5,7 @@ import { faHeart as regularHeart } from '@fortawesome/free-regular-svg-icons';
 import { faHeart as solidHeart } from '@fortawesome/free-solid-svg-icons';
 import { storage } from '../../firebase';
 import { ref, getDownloadURL } from 'firebase/storage';
+import { Link } from 'react-router-dom';
 
 const Wrapper = styled.div`
 	display: flex;
@@ -26,9 +27,10 @@ const Details = styled.div`
 	width: 380px;
 `;
 
-const Name = styled.div`
-	font-size: 1.5rem;
+const StyledLink = styled(Link)`
+	font-size: 1.3rem;
 	font-weight: bold;
+	color: var(--main-text-color);
 `;
 
 const Neighborhood = styled.div`
@@ -46,7 +48,7 @@ const Icon = styled.div`
 	width: fit-content;
 `;
 
-const Listing = ({ index, name, neighborhood, address, defaultImg }) => {
+const Listing = ({ id, name, neighborhood, address, defaultImg }) => {
 	const [defaultImgURL, setDefaultImgURL] = useState(null);
 	const [isHovered, setIsHovered] = useState(false);
 
@@ -75,9 +77,11 @@ const Listing = ({ index, name, neighborhood, address, defaultImg }) => {
 		<Wrapper>
 			<Img src={defaultImgURL} alt={`Image of ${name}`} />
 			<Details>
-				<Name>
-					# {index + 1} - {name}
-				</Name>
+				<StyledLink to={`/fields/${id}`}>
+					<div>
+						# {id + 1} - {name}
+					</div>
+				</StyledLink>
 				<Neighborhood>{neighborhood}</Neighborhood>
 				<Address>{address}</Address>
 				<Icon onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>

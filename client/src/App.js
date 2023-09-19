@@ -7,6 +7,7 @@ import Fields from './pages/Fields';
 import AuthStatus from './components/Auth';
 import { Route, Routes } from 'react-router-dom';
 import styled from 'styled-components';
+import Field from './pages/Field';
 
 const Wrapper = styled.div`
 	display: flex;
@@ -25,6 +26,7 @@ function App() {
 				<Route path='/sign-in' element={<SignIn />} />
 				<Route path='/auth-status' element={<AuthStatus />} />
 				<Route path='/fields' element={<Fields />} />
+				<Route path='/fields/:id' element={<Field />} />
 			</Routes>
 		</Wrapper>
 	);
