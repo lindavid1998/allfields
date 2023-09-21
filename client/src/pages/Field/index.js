@@ -7,20 +7,14 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowLeft } from '@fortawesome/free-solid-svg-icons';
 import { Link, useParams } from 'react-router-dom';
 import { db } from '../../firebase';
-import {
-	ref,
-	onValue,
-	equalTo,
-	query,
-	orderByChild,
-	get,
-} from 'firebase/database';
+import { ref, onValue, equalTo, query, orderByChild } from 'firebase/database';
 
 const Wrapper = styled.div`
 	max-width: var(--max-width);
 	padding: 10px 16px;
 	width: 100%;
 	color: var(--main-text-color);
+	// background-color: var(--light-text-color);
 `;
 
 const Back = styled(Link)`
@@ -54,6 +48,7 @@ const Field = () => {
 	const [isFormVisible, setIsFormVisible] = useState(false);
 	const [fieldData, setFieldData] = useState(null);
 	const [postData, setPostData] = useState(null);
+	const [isPostDataEmpty, setIsPostDataEmpty] = useState(false);
 	const { id } = useParams();
 
 	useEffect(() => {
@@ -75,9 +70,16 @@ const Field = () => {
 					orderByChild('fieldId'),
 					equalTo(id)
 				);
-				const snapshot = await get(dataRef);
-				let data = snapshot.val();
-				setPostData(Object.values(data));
+
+				onValue(dataRef, (snapshot) => {
+					const data = snapshot.val();
+					if (snapshot.exists()) {
+						setPostData(Object.values(data));
+						setIsPostDataEmpty(false);
+					} else {
+						setIsPostDataEmpty(true);
+					}
+				});
 			} catch (err) {
 				console.log(err);
 			}
@@ -102,19 +104,21 @@ const Field = () => {
 				<>
 					<h1>{fieldData.name}</h1>
 					<h3>{fieldData.address}</h3>
-					<MenuBar handleVisibility={toggleFormVisibility} />
+					<MenuBar toggleVisibility={toggleFormVisibility} />
 				</>
 			) : (
 				<p>Loading...</p>
 			)}
 
 			<Posts>
-				{postData ? (
+				{isPostDataEmpty ? (
+					<p>No posts here yet!</p>
+				) : postData ? (
 					postData.map((item, index) => (
 						<Post
 							key={index}
 							body={item.body}
-							date={item.date}
+							date={item.postDate}
 							userId={item.userId}
 						/>
 					))
@@ -125,7 +129,7 @@ const Field = () => {
 
 			{isFormVisible && (
 				<PositionedForm>
-					<Form handleVisibility={toggleFormVisibility} />
+					<Form toggleVisibility={toggleFormVisibility} />
 				</PositionedForm>
 			)}
 		</Wrapper>

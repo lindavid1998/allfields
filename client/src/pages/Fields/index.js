@@ -9,7 +9,7 @@ const Wrapper = styled.div`
 	display: flex;
 	flex-direction: column;
 	width: 100%;
-	align-items: center;
+	align-items: flex-start;
 	gap: 25px;
 	padding: 10px 16px;
 	max-width: 1085px;
@@ -23,7 +23,6 @@ const Fields = () => {
 			try {
 				const fieldsRef = ref(db, 'fields');
 				const snapshot = await get(fieldsRef);
-				console.log(snapshot.val());
 				setData(snapshot.val());
 			} catch (err) {
 				console.log(err);

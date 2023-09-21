@@ -1,15 +1,8 @@
-// Import the functions you need from the SDKs you need
 import { initializeApp } from 'firebase/app';
-import { getAuth, GoogleAuthProvider } from "firebase/auth";
-import { getDatabase } from 'firebase/database';
-import { ref, set } from 'firebase/database';
+import { getAuth, GoogleAuthProvider } from 'firebase/auth';
+import { ref, set, query, get, getDatabase, onValue } from 'firebase/database';
 import { getStorage } from 'firebase/storage';
 
-// TODO: Add SDKs for Firebase products that you want to use
-// https://firebase.google.com/docs/web/setup#available-libraries
-
-// Your web app's Firebase configuration
-// For Firebase JS SDK v7.20.0 and later, measurementId is optional
 const firebaseConfig = {
 	apiKey: process.env.REACT_APP_API_KEY,
 	authDomain: process.env.REACT_APP_AUTH_DOMAIN,
@@ -21,7 +14,16 @@ const firebaseConfig = {
 	measurementId: process.env.REACT_APP_MEASUREMENT_ID,
 };
 
+// Initialize Firebase
+const app = initializeApp(firebaseConfig);
+
+export const auth = getAuth(app);
+export const provider = new GoogleAuthProvider();
+export const db = getDatabase(app);
+export const storage = getStorage();
+
 export const addUser = (userId, firstName, lastName, email) => {
+	// adds user to realtime database
 	set(ref(db, 'users/' + userId), {
 		email: email,
 		firstName: firstName,
@@ -30,15 +32,19 @@ export const addUser = (userId, firstName, lastName, email) => {
 };
 
 export const getUserId = (auth) => {
+	// returns current user's uid if user is logged in
 	const currentUser = auth.currentUser;
 	return currentUser ? currentUser.uid : null;
 };
 
-// Initialize Firebase
-const app = initializeApp(firebaseConfig);
-
-// Initialize authentication 
-export const auth = getAuth(app);
-export const provider = new GoogleAuthProvider();
-export const db = getDatabase(app);
-export const storage = getStorage();
+export const getUserFullName = async (uid) => {
+	// returns user's full name as string
+	try {
+		const dataRef = query(ref(db, 'users/' + uid));
+		const snapshot = await get(dataRef);
+		const data = snapshot.val();
+		return `${data.firstName} ${data.lastName}`;
+	} catch (error) {
+		console.error(error);
+	}
+};

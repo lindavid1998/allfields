@@ -23,7 +23,7 @@ const Tab = styled.button`
 	}
 `;
 
-const MenuBar = ({ handleVisibility }) => {
+const MenuBar = ({ toggleVisibility }) => {
 	const navigate = useNavigate();
 
 	const handleClick = () => {
@@ -31,7 +31,7 @@ const MenuBar = ({ handleVisibility }) => {
 		if (!userId) {
 			navigate('/sign-in');
 		} else {
-			handleVisibility();
+			toggleVisibility();
 		}
 	};
 

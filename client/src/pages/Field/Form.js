@@ -57,16 +57,21 @@ const Name = styled.div`
 	font-weight: bold;
 `;
 
-const Form = ({ handleVisibility }) => {
-	const [date, setDate] = useState(null);
+const Form = ({ toggleVisibility }) => {
+	const [visitDate, setVisitDate] = useState(null);
 	const [body, setBody] = useState(null);
 
 	const navigate = useNavigate();
 	const params = useParams();
 
-	const writeNewPost = (userID, date, body, fieldID) => {
+	const writeNewPost = (userID, visitDate, body, fieldID) => {
+		// get current date as post date
+		let postDate = new Date(); 
+		postDate = postDate.toISOString().split('T')[0];
+
 		const postData = {
-			date: date,
+			postDate: postDate,
+			visitDate: visitDate,
 			body: body,
 			fieldId: fieldID,
 			userId: userID,
@@ -94,13 +99,13 @@ const Form = ({ handleVisibility }) => {
 		// read field ID
 		const fieldId = params.id;
 
-		writeNewPost(userId, date, body, fieldId); // write post to database
-		handleVisibility(); // toggle form visibility
+		writeNewPost(userId, visitDate, body, fieldId); // write post to database
+		toggleVisibility(); // toggle form visibility
 	};
 
 	return (
 		<StyledForm>
-			<Back onClick={handleVisibility}>
+			<Back onClick={toggleVisibility}>
 				<FontAwesomeIcon icon={faX} />
 			</Back>
 			<Name>Doyle Community Park</Name>
@@ -111,7 +116,7 @@ const Form = ({ handleVisibility }) => {
 					id='date'
 					name='date'
 					required
-					onChange={(e) => setDate(e.target.value)}
+					onChange={(e) => setVisitDate(e.target.value)}
 				/>
 			</FormRow>
 			<FormRow>
