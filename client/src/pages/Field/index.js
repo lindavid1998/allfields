@@ -74,7 +74,7 @@ const Field = () => {
 				onValue(dataRef, (snapshot) => {
 					const data = snapshot.val();
 					if (snapshot.exists()) {
-						setPostData(Object.values(data));
+						setPostData(data);
 						setIsPostDataEmpty(false);
 					} else {
 						setIsPostDataEmpty(true);
@@ -114,12 +114,13 @@ const Field = () => {
 				{isPostDataEmpty ? (
 					<p>No posts here yet!</p>
 				) : postData ? (
-					postData.map((item, index) => (
+					Object.entries(postData).map(([postId, data], index) => (
 						<Post
 							key={index}
-							body={item.body}
-							date={item.postDate}
-							userId={item.userId}
+							postId={postId}
+							body={data.body}
+							date={data.postDate}
+							userId={data.userId}
 						/>
 					))
 				) : (
