@@ -14,7 +14,6 @@ const Wrapper = styled.div`
 	padding: 10px 16px;
 	width: 100%;
 	color: var(--main-text-color);
-	// background-color: var(--light-text-color);
 `;
 
 const Back = styled(Link)`
@@ -119,8 +118,10 @@ const Field = () => {
 							key={index}
 							postId={postId}
 							body={data.body}
-							date={data.postDate}
+							postDate={data.postDate}
+							visitDate={data.visitDate}
 							userId={data.userId}
+							conditions={data.conditions}
 						/>
 					))
 				) : (

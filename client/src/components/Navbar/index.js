@@ -42,11 +42,7 @@ const Navbar = () => {
 			<StyledLink to='/'>
 				<StyledH1>AllFields</StyledH1>
 			</StyledLink>
-			<Button
-				text='Try AllFields+ for free'
-				color='bright'
-				size='small'
-			></Button>
+			<Button text='Try AllFields+ for free' color='bright' size='small' />
 			{user ? (
 				<Avatar />
 			) : (

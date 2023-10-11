@@ -6,6 +6,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faX } from '@fortawesome/free-solid-svg-icons';
 import { db, auth, getUserId } from '../../firebase';
 import { ref, child, push, update } from 'firebase/database';
+import { capitalize } from '../../utils';
 
 const StyledForm = styled.form`
 	display: flex;
@@ -27,11 +28,10 @@ const FormRow = styled.div`
 
 const Textarea = styled.textarea`
 	width: 100%;
-	border: 1px solid var(--gray-text-color);
-	border-radius: 10px;
 `;
 
 const PositionedBtn = styled.div`
+	margin-top: 25px;
 	align-self: flex-end;
 `;
 
@@ -57,24 +57,42 @@ const Name = styled.div`
 	font-weight: bold;
 `;
 
+const Conditions = styled.div`
+	display: flex;
+	flex-wrap: wrap;
+	gap: 10px;
+`;
+
 const Form = ({ toggleVisibility }) => {
 	const [visitDate, setVisitDate] = useState(null);
 	const [body, setBody] = useState(null);
+	const [conditions, setConditions] = useState({
+		muddy: false,
+		slippery: false,
+		bumpy: false,
+		dry: false,
+		puddles: false,
+		overgrown: false,
+		patchy: false,
+		hard: false,
+		frosty: false,
+	});
 
 	const navigate = useNavigate();
 	const params = useParams();
 
-	const writeNewPost = (userID, visitDate, body, fieldID) => {
+	const writeNewPost = (userId, visitDate, body, fieldId, conditions) => {
 		// get current date as post date
-		let postDate = new Date(); 
+		let postDate = new Date();
 		postDate = postDate.toISOString().split('T')[0];
 
 		const postData = {
 			postDate: postDate,
 			visitDate: visitDate,
 			body: body,
-			fieldId: fieldID,
-			userId: userID,
+			fieldId: fieldId,
+			userId: userId,
+			conditions: conditions,
 		};
 
 		// get a key for the post
@@ -99,8 +117,8 @@ const Form = ({ toggleVisibility }) => {
 		// read field ID
 		const fieldId = params.id;
 
-		writeNewPost(userId, visitDate, body, fieldId); // write post to database
-		toggleVisibility(); // toggle form visibility
+		writeNewPost(userId, visitDate, body, fieldId, conditions); // write post to database
+		toggleVisibility(); // hide form
 	};
 
 	return (
@@ -129,6 +147,26 @@ const Form = ({ toggleVisibility }) => {
 					required
 					onChange={(e) => setBody(e.target.value)}
 				/>
+			</FormRow>
+			<FormRow>
+				<Label htmlFor='conditions'>Conditions</Label>
+				<Conditions>
+					{Object.keys(conditions).map((key, index) => (
+						<Button
+							key={index}
+							size='small'
+							text={capitalize(key)}
+							color={conditions[key] ? 'primary' : 'light'}
+							bold={false}
+							onClick={() =>
+								setConditions((prevConditions) => ({
+									...prevConditions,
+									[key]: !prevConditions[key],
+								}))
+							}
+						/>
+					))}
+				</Conditions>
 			</FormRow>
 			<PositionedBtn>
 				<Button

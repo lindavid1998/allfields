@@ -5,6 +5,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTrashCan } from '@fortawesome/free-regular-svg-icons';
 import { db, auth, getUserId } from '../../firebase';
 import { ref, remove } from 'firebase/database';
+import { capitalize } from '../../utils';
 
 const Wrapper = styled.div`
 	display: flex;
@@ -27,6 +28,7 @@ const Date = styled.div`
 
 const Body = styled.div`
 	color: var(--main-text-color);
+	margin-bottom: 15px;
 `;
 
 const Icon = styled.div`
@@ -39,7 +41,7 @@ const Icon = styled.div`
 	}
 `;
 
-const Post = ({ body, date, userId, postId }) => {
+const Post = ({ body, postDate, visitDate, userId, postId, conditions }) => {
 	let [name, setName] = useState('');
 	let [isDeleteVisible, setIsDeleteVisible] = useState(false);
 
@@ -52,7 +54,7 @@ const Post = ({ body, date, userId, postId }) => {
 				console.error(error);
 			}
 		};
-		
+
 		fetchName();
 
 		let currentUserId = getUserId(auth);
@@ -68,11 +70,31 @@ const Post = ({ body, date, userId, postId }) => {
 		}
 	};
 
+	const convertConditionsToString = (conditions) => {
+		let entries = Object.entries(conditions); // convert conditions object to an array of key-value pairs
+		let filteredEntries = entries.filter(([key, value]) => value); // only keep pairs that have value of true
+		let arr = filteredEntries.map((subArr) => capitalize(subArr[0])); // map filtered keys to an array
+		return arr.join(', '); // join array by comma, capitalizing each word
+	};
+
 	return (
 		<Wrapper>
 			<User>{name}</User>
-			<Date>{date}</Date>
+			<Date>{postDate}</Date>
 			<Body>{body}</Body>
+
+			{visitDate ? (
+				<div>
+					<strong>Date visited: </strong> {visitDate}
+				</div>
+			) : null}
+
+			{conditions ? (
+				<div>
+					<strong>Conditions:</strong> {convertConditionsToString(conditions)}
+				</div>
+			) : null}
+
 			{isDeleteVisible ? (
 				<Icon onClick={() => deletePost(postId, userId)}>
 					<FontAwesomeIcon icon={faTrashCan} />

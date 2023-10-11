@@ -35,8 +35,8 @@ const COLORS = {
 };
 
 const getSizeStyles = (size) => {
-  const { fontSize, height, padding } = SIZES[size] || SIZES.small;
-  return `
+	const { fontSize, height, padding } = SIZES[size] || SIZES.small;
+	return `
     font-size: ${fontSize};
     height: ${height};
     padding: ${padding};
@@ -44,8 +44,8 @@ const getSizeStyles = (size) => {
 };
 
 const getColorStyles = (color) => {
-  const { borderColor, bgColor, textColor } = COLORS[color] || COLORS.primary;
-  return `
+	const { borderColor, bgColor, textColor } = COLORS[color] || COLORS.primary;
+	return `
     border-color: var(${borderColor});
     background-color: var(${bgColor});
     color: var(${textColor});
@@ -56,13 +56,13 @@ export const StyledButton = styled.button`
 	display: flex;
 	justify-content: center;
 	align-items: center;
-	font-weight: 700;
+	font-weight: ${(props) => (props.$bold ? '700' : 'normal')};
 	line-height: 1.5;
 	border: 2px solid transparent;
 	cursor: pointer;
 	transition: all 0.2s ease-out;
 	border-radius: 9999px;
-  width: ${props => props.stretched ? "100%" : "fit-content"};
+	width: ${(props) => (props.stretched ? '100%' : 'fit-content')};
 	${(props) => getSizeStyles(props.size)}
 	${(props) => getColorStyles(props.color)}
   &:hover {

@@ -34,7 +34,14 @@ a {
 }
 
 input, textarea {
+	appearance: none;
+	-webkit-appearance: none;
+	-moz-appearance: none;
   border: none; 
   outline: none; 
 	resize: none;
+	font-family: inherit;
+	padding: 8px;
+	border: 1px solid #ccc;
+	border-radius: 4px;
 }
