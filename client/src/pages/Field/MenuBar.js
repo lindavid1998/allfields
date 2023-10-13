@@ -8,6 +8,7 @@ const Wrapper = styled.div`
 	display: flex;
 	align-items: center;
 	gap: 30px;
+	padding: 10px 16px;
 `;
 
 const Tab = styled.button`

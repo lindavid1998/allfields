@@ -8,12 +8,26 @@ import { faArrowLeft } from '@fortawesome/free-solid-svg-icons';
 import { Link, useParams } from 'react-router-dom';
 import { db } from '../../firebase';
 import { ref, onValue, equalTo, query, orderByChild } from 'firebase/database';
+import Hero from './Hero';
 
 const Wrapper = styled.div`
 	max-width: var(--max-width);
-	padding: 10px 16px;
 	width: 100%;
+	height: fit-content;
 	color: var(--main-text-color);
+	display: flex;
+	flex-direction: column;
+	gap: 20px;
+	padding: 10px 16px;
+`;
+
+const Content = styled.div`
+	box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+	display: flex;
+	flex-direction: column;
+	gap: 10px;
+	border-top-left-radius: 30px;
+	border-top-right-radius: 30px;
 `;
 
 const Back = styled(Link)`
@@ -24,14 +38,14 @@ const Back = styled(Link)`
 `;
 
 const Posts = styled.div`
-	margin-top: 20px;
 	display: flex;
 	flex-direction: column;
 	gap: 20px;
+	padding: 10px 16px;
 `;
 
 const PositionedForm = styled.div`
-	position: absolute;
+	position: fixed;
 	top: 0;
 	left: 0;
 	width: 100vw;
@@ -99,40 +113,42 @@ const Field = () => {
 				<div>Back to search</div>
 			</Back>
 
-			{fieldData ? (
-				<>
-					<h1>{fieldData.name}</h1>
-					<h3>{fieldData.address}</h3>
+			{fieldData && (postData || isPostDataEmpty) ? (
+				<Content>
+					<Hero
+						heroImg={fieldData.defaultImg}
+						name={fieldData.name}
+						address={fieldData.address}
+					/>
+
 					<MenuBar toggleVisibility={toggleFormVisibility} />
-				</>
+
+					<Posts>
+						{isPostDataEmpty ? (
+							<p>No posts here yet!</p>
+						) : (
+							Object.entries(postData).map(([postId, data], index) => (
+								<Post
+									key={index}
+									postId={postId}
+									body={data.body}
+									postDate={data.postDate}
+									visitDate={data.visitDate}
+									userId={data.userId}
+									conditions={data.conditions}
+								/>
+							))
+						)}
+					</Posts>
+
+					{isFormVisible && (
+						<PositionedForm>
+							<Form toggleVisibility={toggleFormVisibility} />
+						</PositionedForm>
+					)}
+				</Content>
 			) : (
 				<p>Loading...</p>
-			)}
-
-			<Posts>
-				{isPostDataEmpty ? (
-					<p>No posts here yet!</p>
-				) : postData ? (
-					Object.entries(postData).map(([postId, data], index) => (
-						<Post
-							key={index}
-							postId={postId}
-							body={data.body}
-							postDate={data.postDate}
-							visitDate={data.visitDate}
-							userId={data.userId}
-							conditions={data.conditions}
-						/>
-					))
-				) : (
-					<p>Loading...</p>
-				)}
-			</Posts>
-
-			{isFormVisible && (
-				<PositionedForm>
-					<Form toggleVisibility={toggleFormVisibility} />
-				</PositionedForm>
 			)}
 		</Wrapper>
 	);
