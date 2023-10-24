@@ -40,7 +40,7 @@ const Back = styled(Link)`
 const Posts = styled.div`
 	display: flex;
 	flex-direction: column;
-	gap: 20px;
+	// gap: 20px;
 	padding: 10px 16px;
 `;
 

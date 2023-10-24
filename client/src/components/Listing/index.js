@@ -1,11 +1,10 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faHeart as regularHeart } from '@fortawesome/free-regular-svg-icons';
 import { faHeart as solidHeart } from '@fortawesome/free-solid-svg-icons';
-import { storage } from '../../firebase';
-import { ref, getDownloadURL } from 'firebase/storage';
 import { Link } from 'react-router-dom';
+import { useImagePathToURL } from '../../useImagePathToURL';
 
 const Wrapper = styled.div`
 	display: flex;
@@ -48,22 +47,9 @@ const Icon = styled.div`
 	width: fit-content;
 `;
 
-const Listing = ({ id, name, neighborhood, address, defaultImg }) => {
-	const [defaultImgURL, setDefaultImgURL] = useState(null);
+const Listing = ({ id, name, neighborhood, address, defaultImgPath }) => {
+	const defaultImgURL = useImagePathToURL(defaultImgPath)
 	const [isHovered, setIsHovered] = useState(false);
-
-	useEffect(() => {
-		const fetchURL = async () => {
-			try {
-				const pathRef = ref(storage, defaultImg);
-				const URL = await getDownloadURL(pathRef);
-				setDefaultImgURL(URL);
-			} catch (error) {
-				console.log(error);
-			}
-		};
-		fetchURL();
-	}, []);
 
 	const handleMouseEnter = () => {
 		setIsHovered(true);

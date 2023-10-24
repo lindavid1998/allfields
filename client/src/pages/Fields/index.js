@@ -42,7 +42,7 @@ const Fields = () => {
 						name={field.name}
 						neighborhood={field.neighborhood}
 						address={field.address}
-						defaultImg={field.defaultImg}
+						defaultImgPath={field.defaultImg}
 					/>
 				))
 			) : (

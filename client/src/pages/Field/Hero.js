@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import styled from 'styled-components';
 import { storage } from '../../firebase';
 import { ref, getDownloadURL } from 'firebase/storage';
+import { useImagePathToURL } from '../../useImagePathToURL';
 
 const Wrapper = styled.div`
   height: 300px;
@@ -36,21 +37,8 @@ const Info = styled.div`
 `;
 
 const Hero = ({ heroImg, name, address }) => {
-  const [heroImgURL, setHeroImgURL] = useState(null);
+	const heroImgURL = useImagePathToURL(heroImg);
 
-  useEffect(() => {
-		const fetchURL = async () => {
-			try {
-				const pathRef = ref(storage, heroImg);
-				const URL = await getDownloadURL(pathRef);
-				setHeroImgURL(URL);
-			} catch (error) {
-				console.log(error);
-			}
-		};
-		fetchURL();
-  }, []);
-  
 	return (
 		<Wrapper>
 			<Image src={heroImgURL} alt={`Image of ${name}`}></Image>
