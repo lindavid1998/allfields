@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { getUserFullName } from '../../firebase';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faTrashCan } from '@fortawesome/free-regular-svg-icons';
+import { faTrashCan, faPenToSquare } from '@fortawesome/free-regular-svg-icons';
 import { db, auth, getUserId } from '../../firebase';
 import { ref, remove } from 'firebase/database';
 import { capitalize } from '../../utils';
@@ -39,10 +39,15 @@ const Body = styled.div`
 	}
 `;
 
-const Icon = styled.div`
+const Icons = styled.div`
+	display: flex;
+	gap: 10px;
 	position: absolute;
 	top: 20px;
 	right: 50px;
+`
+
+const Icon = styled.div`
 	transition: transform 0.2s ease-in-out;
 	&:hover {
 		transform: scale(1.2);
@@ -51,7 +56,7 @@ const Icon = styled.div`
 
 const Post = ({ body, postDate, visitDate, userId, postId, conditions }) => {
 	let [name, setName] = useState('');
-	let [isDeleteVisible, setIsDeleteVisible] = useState(false);
+	let [isAuthorizedUser, setIsAuthorizedUser] = useState(false);
 
 	useEffect(() => {
 		const fetchName = async () => {
@@ -66,7 +71,7 @@ const Post = ({ body, postDate, visitDate, userId, postId, conditions }) => {
 		fetchName();
 
 		let currentUserId = getUserId(auth);
-		setIsDeleteVisible(currentUserId === userId);
+		setIsAuthorizedUser(currentUserId === userId);
 	}, []);
 
 	const deletePost = async (postId, userId) => {
@@ -87,10 +92,15 @@ const Post = ({ body, postDate, visitDate, userId, postId, conditions }) => {
 
 	return (
 		<Wrapper>
-			{isDeleteVisible ? (
-				<Icon onClick={() => deletePost(postId, userId)}>
-					<FontAwesomeIcon icon={faTrashCan} />
-				</Icon>
+			{isAuthorizedUser ? (
+				<Icons>
+					<Icon>
+						<FontAwesomeIcon icon={faPenToSquare} />
+					</Icon>
+					<Icon onClick={() => deletePost(postId, userId)}>
+						<FontAwesomeIcon icon={faTrashCan} />
+					</Icon>
+				</Icons>
 			) : null}
 
 			<User>{name}</User>
