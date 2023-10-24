@@ -1,7 +1,6 @@
 import React from 'react';
 import Landing from './pages/Landing';
-import SignIn from './pages/SignIn';
-import SignUp from './pages/SignUp';
+import Auth from './pages/Auth';
 import Navbar from './components/Navbar';
 import Fields from './pages/Fields';
 import AuthStatus from './components/Auth';
@@ -22,11 +21,29 @@ function App() {
 			<Navbar />
 			<Routes>
 				<Route path='/' element={<Landing />} />
-				<Route path='/sign-up' element={<SignUp />} />
-				<Route path='/sign-in' element={<SignIn />} />
 				<Route path='/auth-status' element={<AuthStatus />} />
 				<Route path='/fields' element={<Fields />} />
 				<Route path='/fields/:id' element={<Field />} />
+				<Route
+					path='/sign-up'
+					element={
+						<Auth
+							key='sign-up'
+							isSignIn={false}
+							background='pexels-stanley-morales-3148452.jpg'
+						/>
+					}
+				/>
+				<Route
+					path='/sign-in'
+					element={
+						<Auth
+							key='sign-in'
+							isSignIn={true}
+							background='pexels-tembela-bohle-1884574.jpg'
+						/>
+					}
+				/>
 			</Routes>
 		</Wrapper>
 	);
