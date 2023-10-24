@@ -22,6 +22,10 @@ const Tab = styled.button`
 	&:hover {
 		border-bottom: 2px solid var(--gray-text-color);
 	}
+	&:first-child {
+		font-weight: bold;
+		border-bottom: 2px solid var(--gray-text-color);
+	}
 `;
 
 const MenuBar = ({ toggleVisibility }) => {

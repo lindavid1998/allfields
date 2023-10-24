@@ -21,6 +21,7 @@ const Input = styled.input`
 	padding: 0 16px;
 	background: transparent;
   color: black;
+	border: none;
 `;
 
 const Icon = styled.div`

@@ -11,8 +11,14 @@ const Wrapper = styled.div`
 	display: flex;
 	flex-direction: column;
 	border-bottom: 1px solid var(--light-text-color);
-	padding: 10px 0;
+	padding: 20px 0;
 	position: relative;
+	&:first-child {
+		padding-top: 5px;
+	}
+	&:last-child {
+		border-bottom: none;
+	}
 `;
 
 const User = styled.div`
@@ -28,12 +34,14 @@ const Date = styled.div`
 
 const Body = styled.div`
 	color: var(--main-text-color);
-	margin-bottom: 15px;
+	&:not(:last-child) {
+		margin-bottom: 15px;
+	}
 `;
 
 const Icon = styled.div`
 	position: absolute;
-	top: 10px;
+	top: 20px;
 	right: 50px;
 	transition: transform 0.2s ease-in-out;
 	&:hover {
@@ -79,6 +87,12 @@ const Post = ({ body, postDate, visitDate, userId, postId, conditions }) => {
 
 	return (
 		<Wrapper>
+			{isDeleteVisible ? (
+				<Icon onClick={() => deletePost(postId, userId)}>
+					<FontAwesomeIcon icon={faTrashCan} />
+				</Icon>
+			) : null}
+
 			<User>{name}</User>
 			<Date>{postDate}</Date>
 			<Body>{body}</Body>
@@ -93,12 +107,6 @@ const Post = ({ body, postDate, visitDate, userId, postId, conditions }) => {
 				<div>
 					<strong>Conditions:</strong> {convertConditionsToString(conditions)}
 				</div>
-			) : null}
-
-			{isDeleteVisible ? (
-				<Icon onClick={() => deletePost(postId, userId)}>
-					<FontAwesomeIcon icon={faTrashCan} />
-				</Icon>
 			) : null}
 		</Wrapper>
 	);
