@@ -62,12 +62,13 @@ const Field = () => {
 	const [fieldData, setFieldData] = useState(null);
 	const [postData, setPostData] = useState(null);
 	const [isPostDataEmpty, setIsPostDataEmpty] = useState(false);
-	const { id } = useParams();
+	const [formData, setFormData] = useState(null);
+	const { fieldId } = useParams();
 
 	useEffect(() => {
 		const getFieldData = async () => {
 			try {
-				const dataRef = ref(db, 'fields/' + id);
+				const dataRef = ref(db, 'fields/' + fieldId);
 				onValue(dataRef, (snapshot) => {
 					setFieldData(snapshot.val());
 				});
@@ -81,7 +82,7 @@ const Field = () => {
 				const dataRef = query(
 					ref(db, 'posts'),
 					orderByChild('fieldId'),
-					equalTo(id)
+					equalTo(fieldId)
 				);
 
 				onValue(dataRef, (snapshot) => {
@@ -100,10 +101,15 @@ const Field = () => {
 
 		getFieldData();
 		getPostData();
-	}, [id]);
+	}, [fieldId]);
 
 	const toggleFormVisibility = () => {
 		setIsFormVisible((prevState) => !prevState);
+	};
+
+	const handleEdit = (currentData) => {
+		setFormData(currentData); // load form with current data
+		toggleFormVisibility();
 	};
 
 	return (
@@ -121,7 +127,12 @@ const Field = () => {
 						address={fieldData.address}
 					/>
 
-					<MenuBar toggleVisibility={toggleFormVisibility} />
+					<MenuBar
+						toggleForm={() => {
+							toggleFormVisibility();
+							setFormData(null);
+						}}
+					/>
 
 					<Posts>
 						{isPostDataEmpty ? (
@@ -136,6 +147,7 @@ const Field = () => {
 									visitDate={data.visitDate}
 									userId={data.userId}
 									conditions={data.conditions}
+									editPost={() => handleEdit({...data, postId})}
 								/>
 							))
 						)}
@@ -143,7 +155,11 @@ const Field = () => {
 
 					{isFormVisible && (
 						<PositionedForm>
-							<Form toggleVisibility={toggleFormVisibility} />
+							<Form
+								toggleVisibility={toggleFormVisibility}
+								formData={formData}
+								fieldName={fieldData.name}
+							/>
 						</PositionedForm>
 					)}
 				</Content>

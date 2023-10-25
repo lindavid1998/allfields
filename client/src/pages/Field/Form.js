@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import styled from 'styled-components';
 import Button from '../../components/Button';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -63,27 +63,29 @@ const Conditions = styled.div`
 	gap: 10px;
 `;
 
-const Form = ({ toggleVisibility }) => {
-	const [visitDate, setVisitDate] = useState(null);
-	const [body, setBody] = useState(null);
-	const [conditions, setConditions] = useState({
-		muddy: false,
-		slippery: false,
-		bumpy: false,
-		dry: false,
-		puddles: false,
-		overgrown: false,
-		patchy: false,
-		hard: false,
-		frosty: false,
-	});
+const Form = ({ toggleVisibility, formData, fieldName }) => {
+	const [visitDate, setVisitDate] = useState(formData?.visitDate || null);
 
-	const navigate = useNavigate();
+	const [body, setBody] = useState(formData?.body || null);
+
+	const [conditions, setConditions] = useState(
+		formData?.conditions || {
+			muddy: false,
+			slippery: false,
+			bumpy: false,
+			dry: false,
+			puddles: false,
+			overgrown: false,
+			patchy: false,
+			hard: false,
+			frosty: false,
+		}
+	);
+
 	const params = useParams();
 
-	const writeNewPost = (userId, visitDate, body, fieldId, conditions) => {
-		// get current date as post date
-		let postDate = new Date();
+	const writePost = (userId, visitDate, body, fieldId, conditions) => {
+		let postDate = new Date(); // get current date as post date
 		postDate = postDate.toISOString().split('T')[0];
 
 		const postData = {
@@ -95,29 +97,30 @@ const Form = ({ toggleVisibility }) => {
 			conditions: conditions,
 		};
 
-		// get a key for the post
-		const newPostKey = push(child(ref(db), 'posts')).key;
+		// use existing postId as key if editing post, otherwise generate new key
+		const key = formData ? formData.postId : push(child(ref(db), 'posts')).key;
 
-		const updates = {};
-		updates['/posts/' + newPostKey] = postData;
+		updatePostDatabase(postData, key);
+	};
 
-		return update(ref(db), updates);
+	const updatePostDatabase = (postData, key) => {
+		try {
+			const updates = {};
+			updates['/posts/' + key] = postData;
+			update(ref(db), updates);
+		} catch (err) {
+			console.log(err)
+		}
 	};
 
 	const handleSubmit = () => {
 		// read user ID
 		let userId = getUserId(auth);
 
-		// if user is not logged in, route to log in page
-		if (!userId) {
-			navigate('/sign-in');
-			return;
-		}
-
 		// read field ID
-		const fieldId = params.id;
+		const fieldId = params.fieldId;
 
-		writeNewPost(userId, visitDate, body, fieldId, conditions); // write post to database
+		writePost(userId, visitDate, body, fieldId, conditions); // write post to database
 		toggleVisibility(); // hide form
 	};
 
@@ -126,7 +129,9 @@ const Form = ({ toggleVisibility }) => {
 			<Back onClick={toggleVisibility}>
 				<FontAwesomeIcon icon={faX} />
 			</Back>
-			<Name>Doyle Community Park</Name>
+
+			<Name>{fieldName}</Name>
+
 			<FormRow>
 				<Label htmlFor='date'>Date visited</Label>
 				<input
@@ -135,8 +140,10 @@ const Form = ({ toggleVisibility }) => {
 					name='date'
 					required
 					onChange={(e) => setVisitDate(e.target.value)}
+					value={visitDate || ''}
 				/>
 			</FormRow>
+
 			<FormRow>
 				<Label htmlFor='body'>Comments</Label>
 				<Textarea
@@ -146,8 +153,10 @@ const Form = ({ toggleVisibility }) => {
 					cols='50'
 					required
 					onChange={(e) => setBody(e.target.value)}
+					value={body || ''}
 				/>
 			</FormRow>
+
 			<FormRow>
 				<Label htmlFor='conditions'>Conditions</Label>
 				<Conditions>
@@ -168,6 +177,7 @@ const Form = ({ toggleVisibility }) => {
 					))}
 				</Conditions>
 			</FormRow>
+
 			<PositionedBtn>
 				<Button
 					size='small'

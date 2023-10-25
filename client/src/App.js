@@ -23,7 +23,7 @@ function App() {
 				<Route path='/' element={<Landing />} />
 				<Route path='/auth-status' element={<AuthStatus />} />
 				<Route path='/fields' element={<Fields />} />
-				<Route path='/fields/:id' element={<Field />} />
+				<Route path='/fields/:fieldId' element={<Field />} />
 				<Route
 					path='/sign-up'
 					element={

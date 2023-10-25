@@ -28,7 +28,7 @@ const Tab = styled.button`
 	}
 `;
 
-const MenuBar = ({ toggleVisibility }) => {
+const MenuBar = ({ toggleForm }) => {
 	const navigate = useNavigate();
 
 	const handleClick = () => {
@@ -36,7 +36,7 @@ const MenuBar = ({ toggleVisibility }) => {
 		if (!userId) {
 			navigate('/sign-in');
 		} else {
-			toggleVisibility();
+			toggleForm();
 		}
 	};
 

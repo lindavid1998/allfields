@@ -54,7 +54,7 @@ const Icon = styled.div`
 	}
 `;
 
-const Post = ({ body, postDate, visitDate, userId, postId, conditions }) => {
+const Post = ({ body, postDate, visitDate, userId, postId, conditions, editPost }) => {
 	let [name, setName] = useState('');
 	let [isAuthorizedUser, setIsAuthorizedUser] = useState(false);
 
@@ -72,9 +72,9 @@ const Post = ({ body, postDate, visitDate, userId, postId, conditions }) => {
 
 		let currentUserId = getUserId(auth);
 		setIsAuthorizedUser(currentUserId === userId);
-	}, []);
+	}, [userId]);
 
-	const deletePost = async (postId, userId) => {
+	const deletePost = async (postId) => {
 		try {
 			const confirmed = window.confirm('Are you sure you want to delete?');
 			if (confirmed) await remove(ref(db, 'posts/' + postId));
@@ -90,14 +90,17 @@ const Post = ({ body, postDate, visitDate, userId, postId, conditions }) => {
 		return arr.join(', '); // join array by comma, capitalizing each word
 	};
 
+	const conditionsString = conditions ? convertConditionsToString(conditions) : '';
+
 	return (
 		<Wrapper>
 			{isAuthorizedUser ? (
 				<Icons>
-					<Icon>
+					<Icon onClick={editPost}>
 						<FontAwesomeIcon icon={faPenToSquare} />
 					</Icon>
-					<Icon onClick={() => deletePost(postId, userId)}>
+
+					<Icon onClick={() => deletePost(postId)}>
 						<FontAwesomeIcon icon={faTrashCan} />
 					</Icon>
 				</Icons>
@@ -113,9 +116,9 @@ const Post = ({ body, postDate, visitDate, userId, postId, conditions }) => {
 				</div>
 			) : null}
 
-			{conditions ? (
+			{conditionsString ? (
 				<div>
-					<strong>Conditions:</strong> {convertConditionsToString(conditions)}
+					<strong>Conditions:</strong> {conditionsString}
 				</div>
 			) : null}
 		</Wrapper>
