@@ -32,12 +32,14 @@ const Text = styled.div`
 	text-align: center;
 `;
 
-const Hero = () => {
+const Hero = ({ name }) => {
 	return (
 		<Wrapper>
 			<Img alt='Soccer balls in front of goal' src={heroImg} />
 			<Text>
-				<StyledH1>Enjoy the beautiful game</StyledH1>
+				<StyledH1>
+					{name ? `Welcome, ${name.split(' ')[0]}` : 'Enjoy the beautiful game'}
+				</StyledH1>
 				<Link to='/fields'>
 					<Button size='medium' text='Find nearby fields' color='bright' />
 				</Link>
@@ -45,6 +47,5 @@ const Hero = () => {
 		</Wrapper>
 	);
 };
-
 
 export default Hero;
