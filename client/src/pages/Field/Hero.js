@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import styled from 'styled-components';
 import { storage } from '../../firebase';
 import { ref, getDownloadURL } from 'firebase/storage';
-import { useImagePathToURL } from '../../useImagePathToURL';
+import { useImagePathToURL } from '../../utils';
 
 const Wrapper = styled.div`
   height: 300px;

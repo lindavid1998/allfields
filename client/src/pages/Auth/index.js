@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import { SignInForm, SignUpForm } from '../../components/Form/AuthForm';
-import { useImagePathToURL } from '../../useImagePathToURL';
+import { useImagePathToURL } from '../../utils';
 
 const Content = styled.div`
 	width: 100%;
@@ -18,7 +18,7 @@ const Content = styled.div`
 
 const Auth = ({ isSignIn, background }) => {
 	const imageURL = useImagePathToURL(`images/backgrounds/${background}`);
-  
+	  
   return (
 		<Content background={imageURL}>
 			{isSignIn ? <SignInForm /> : <SignUpForm />}

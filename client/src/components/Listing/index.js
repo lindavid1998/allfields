@@ -4,7 +4,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faHeart as regularHeart } from '@fortawesome/free-regular-svg-icons';
 import { faHeart as solidHeart } from '@fortawesome/free-solid-svg-icons';
 import { Link } from 'react-router-dom';
-import { useImagePathToURL } from '../../useImagePathToURL';
+import { useImagePathToURL } from '../../utils';
 
 const Wrapper = styled.div`
 	display: flex;
@@ -48,7 +48,7 @@ const Icon = styled.div`
 `;
 
 const Listing = ({ id, name, neighborhood, address, defaultImgPath }) => {
-	const defaultImgURL = useImagePathToURL(defaultImgPath)
+	const imgUrl = useImagePathToURL(defaultImgPath)
 	const [isHovered, setIsHovered] = useState(false);
 
 	const handleMouseEnter = () => {
@@ -61,7 +61,9 @@ const Listing = ({ id, name, neighborhood, address, defaultImgPath }) => {
 
 	return (
 		<Wrapper>
-			<Img src={defaultImgURL} alt={`Image of ${name}`} />
+			<Link to={`/fields/${id}`}>
+				<Img src={imgUrl} alt={`Image of ${name}`} />
+			</Link>
 			<Details>
 				<StyledLink to={`/fields/${id}`}>
 					<div>
