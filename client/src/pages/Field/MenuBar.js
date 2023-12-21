@@ -1,8 +1,9 @@
-import React from 'react';
-import { useNavigate } from 'react-router-dom';
+import React, { useContext } from 'react';
+import { useNavigate, useLocation } from 'react-router-dom';
 import styled from 'styled-components';
 import Button from '../../components/Button';
 import { auth, getUserId } from '../../firebase';
+import { PathContext } from '../../utils';
 
 const Wrapper = styled.div`
 	display: flex;
@@ -30,10 +31,14 @@ const Tab = styled.button`
 
 const MenuBar = ({ toggleForm }) => {
 	const navigate = useNavigate();
+	const location = useLocation();
 
-	const handleClick = () => {
+	const { redirectPath, setRedirectPath } = useContext(PathContext);
+
+	const handleClick = async () => {
 		let userId = getUserId(auth);
 		if (!userId) {
+			setRedirectPath(location.pathname);
 			navigate('/sign-in');
 		} else {
 			toggleForm();

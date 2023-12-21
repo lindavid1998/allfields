@@ -3,6 +3,8 @@ import styled from 'styled-components';
 import { auth } from '../../firebase.js';
 import backgroundImage from '../../assets/pexels-ivan-siarbolin-3787832.jpg';
 import { useNavigate } from 'react-router-dom';
+import { useContext } from 'react';
+import { PathContext } from '../../utils';
 
 const Content = styled.div`
 	width: 100%;
@@ -18,48 +20,52 @@ const Content = styled.div`
 `;
 
 const Div = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
 `;
 
 const H2 = styled.h2`
-  margin: 0;
-` 
+	margin: 0;
+`;
 
 const AuthStatus = () => {
-  const [status, setStatus] = useState(null);
-  const [timer, setTimer] = useState(4);
-  const navigate = useNavigate();
+	const [status, setStatus] = useState(null);
+	const [timer, setTimer] = useState(4);
+	const navigate = useNavigate();
+
+	const { redirectPath, setRedirectPath } = useContext(PathContext);
 
 	useEffect(() => {
 		const unsubscribe = auth.onAuthStateChanged((user) => {
-      user ? setStatus('in') : setStatus('out')
-    });
+			user ? setStatus('in') : setStatus('out');
+		});
 
-    // start countdown timer
-    setInterval(() => {
-      setTimer((prevTimer) => prevTimer - 1);
-    }, 1000)
+		// start countdown timer
+		setInterval(() => {
+			setTimer((prevTimer) => prevTimer - 1);
+		}, 1000);
 
 		return () => unsubscribe();
-  }, []);
-  
-  // route to landing page once timer is up
-  useEffect(() => {
-    if (timer <= 0) {
-			navigate('/');
+	}, []);
+
+	// route to landing page once timer is up
+	useEffect(() => {
+		if (timer <= 0) {
+			navigate(redirectPath);
+			setRedirectPath('/');
 		}
-  }, [timer])
+	}, [timer]);
 
 	return (
 		<Content>
 			<Div>
-        <H2>
-          You have been signed {status}. Back to <a href='/'>home</a>.
-        </H2>
-        <p>You will be automatically redirected in {timer} seconds.</p>
-      </Div>
+				<H2>
+					You have been signed {status}. Back to{' '}
+					<a href={redirectPath}>previous page</a>.
+				</H2>
+				<p>You will be automatically redirected in {timer} seconds.</p>
+			</Div>
 		</Content>
 	);
 };

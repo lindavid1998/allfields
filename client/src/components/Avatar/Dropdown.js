@@ -1,8 +1,9 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import styled from 'styled-components';
 import { auth } from '../../firebase.js';
 import { signOut } from 'firebase/auth';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
+import { PathContext } from '../../utils';
 
 const Wrapper = styled.div`
 	width: 140px;
@@ -22,10 +23,13 @@ const Div = styled.div`
 
 const Dropdown = () => {
 	const navigate = useNavigate();
+	const location = useLocation();
+	const { redirectPath, setRedirectPath } = useContext(PathContext);
 
 	const logOut = async () => {
 		try {
 			await signOut(auth);
+			setRedirectPath(location.pathname);
 			navigate('/auth-status');
 		} catch (err) {
 			console.log(err);

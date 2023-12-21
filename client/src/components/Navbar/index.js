@@ -1,9 +1,10 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useContext } from 'react';
 import styled from 'styled-components';
 import Button from '../Button';
 import Avatar from '../Avatar';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import { auth } from '../../firebase.js';
+import { PathContext } from '../../utils';
 
 const Wrapper = styled.nav`
 	display: flex;
@@ -28,6 +29,8 @@ const StyledLink = styled(Link)`
 
 const Navbar = () => {
 	const [user, setUser] = useState(null);
+	const location = useLocation()
+	const { redirectPath, setRedirectPath } = useContext(PathContext);
 
 	useEffect(() => {
 		const unsubscribe = auth.onAuthStateChanged((user) => {
@@ -47,7 +50,7 @@ const Navbar = () => {
 				<Avatar />
 			) : (
 				<Link to='/sign-in'>
-					<Button text='Log in' color='light' size='small' />
+						<Button text='Log in' color='light' size='small' onClick={() => setRedirectPath(location.pathname)} />
 				</Link>
 			)}
 		</Wrapper>
