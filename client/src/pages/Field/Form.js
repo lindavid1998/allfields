@@ -18,6 +18,9 @@ const StyledForm = styled.form`
 	width: 400px;
 	padding: 20px;
 	gap: 20px;
+	& > * {
+		margin: 0
+	}
 `;
 
 const FormRow = styled.div`
@@ -50,11 +53,6 @@ const Back = styled.div`
 
 const Label = styled.label`
 	font-size: 1.05rem;
-`;
-
-const Name = styled.div`
-	font-size: 1.4rem;
-	font-weight: bold;
 `;
 
 const Conditions = styled.div`
@@ -130,7 +128,7 @@ const Form = ({ toggleVisibility, formData, fieldName }) => {
 				<FontAwesomeIcon icon={faX} />
 			</Back>
 
-			<Name>{fieldName}</Name>
+			<h5>{fieldName}</h5>
 
 			<FormRow>
 				<Label htmlFor='date'>Date visited</Label>

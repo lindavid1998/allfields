@@ -25,10 +25,6 @@ const Div = styled.div`
 	align-items: center;
 `;
 
-const H2 = styled.h2`
-	margin: 0;
-`;
-
 const AuthStatus = () => {
 	const [status, setStatus] = useState(null);
 	const [timer, setTimer] = useState(4);
@@ -60,10 +56,10 @@ const AuthStatus = () => {
 	return (
 		<Content>
 			<Div>
-				<H2>
+				<h4>
 					You have been signed {status}. Back to{' '}
 					<a href={redirectPath}>previous page</a>.
-				</H2>
+				</h4>
 				<p>You will be automatically redirected in {timer} seconds.</p>
 			</Div>
 		</Content>

@@ -19,16 +19,14 @@ const Content = styled.div`
 const Quote = styled.div`
 	display: flex;
 	flex-direction: column;
-	gap: 24px;
-	line-height: 1.5;
-`;
-
-const Text = styled.div`
-	font-style: italic;
+	max-width: 600px;
 `;
 
 const Person = styled.div`
 	font-weight: bold;
+	text-align: right;
+	position: relative;
+	right: 50px;
 `;
 
 const Quotes = () => {
@@ -39,7 +37,7 @@ const Quotes = () => {
 		},
 		{
 			person: 'Lionel Messi',
-			text: `I would not have won my 7 Ballon d'Ors without AllFields.`,
+			text: `I would not have won my 8 Ballon d'Ors without AllFields.`,
 		},
 	];
 
@@ -48,7 +46,7 @@ const Quotes = () => {
 			<Content>
 				{data.map((quote, index) => (
 					<Quote key={index}>
-						<Text>"{quote.text}"</Text>
+						<h6>"{quote.text}"</h6>
 						<Person>- {quote.person}</Person>
 					</Quote>
 				))}

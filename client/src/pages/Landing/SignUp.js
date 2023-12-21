@@ -8,32 +8,17 @@ const Wrapper = styled.div`
 	display: flex;
 	padding: var(--home-padding);
 	width: 100%;
+	justify-content: center;
+	gap: 50px;
 `;
 
 const Content = styled.div`
 	display: flex;
-	margin: 0 auto;
-	width: 100%;
-	max-width: var(--max-width);
-	justify-content: space-between;
-	gap: 25px;
-`;
-
-const Text = styled.div`
-	display: flex;
 	flex-direction: column;
-	gap: 10px;
 	align-items: start;
-`;
-
-const MainText = styled.div`
-	font-weight: bold;
-	font-size: 1.4rem;
-`;
-
-const Subtext = styled.div`
-	margin-bottom: 15px;
-	font-size: 1.2rem;
+	& > :last-child {
+		margin-top: 2rem;
+	}
 `;
 
 const Img = styled.img`
@@ -46,17 +31,15 @@ const Img = styled.img`
 const SignUp = ({ user }) => {
 	return (
 		<Wrapper>
+			<Img src={imgSrc} />
 			<Content>
-				<Img src={imgSrc} />
-				<Text>
-					<MainText>Football has no boundaries</MainText>
-
-					<Subtext>
-						{user
-							? 'Welcome to the largest community in the world'
-							: 'Join the largest community in the world today'}
-					</Subtext>
-
+				<h4>Football has no boundaries</h4>
+				<h6>
+					{user
+						? 'Welcome to the largest community in the world'
+						: 'Join the largest community in the world today'}
+				</h6>
+				<div>
 					{user ? (
 						<Link to='/fields'>
 							<Button text='Find fields' color='primary' size='medium' />
@@ -66,7 +49,7 @@ const SignUp = ({ user }) => {
 							<Button text='Sign up' color='primary' size='medium' />
 						</Link>
 					)}
-				</Text>
+				</div>
 			</Content>
 		</Wrapper>
 	);

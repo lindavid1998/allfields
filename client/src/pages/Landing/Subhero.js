@@ -7,6 +7,7 @@ const Wrapper = styled.div`
   width: 100%;
   padding: var(--home-padding);
   background: var(--light-bg-color);
+	text-align: center;
 `;
 
 const Content = styled.div`
@@ -14,28 +15,21 @@ const Content = styled.div`
 	flex-direction: column;
 	max-width: var(--max-width);
 	margin: 0 auto;
+	align-items: center;
 `;
-
-const Header = styled.h3`
-  font-size: 24px;
-`
-
-const Text = styled.p`
-	font-size: 1.1rem;
-`
 
 const Subhero = () => {
 	return (
 		<Wrapper>
 			<Content>
-				<Header>
-					Hate gearing up for football and driving only to find a completely
-					occupied or unplayable field?
-				</Header>
-				<Text>
-					We do too. That's why we made AllFields, a web service that provides
-					crowdsourced reports of field occupancy and surface conditions
-				</Text>
+				<h4>
+					Hate gearing up for football only to find a completely unplayable
+					field?
+				</h4>
+				<h6>
+					We do too. That's why we made AllFields, a place where you'll find
+					crowdsourced reports of field conditions.
+				</h6>
 			</Content>
 		</Wrapper>
 	);

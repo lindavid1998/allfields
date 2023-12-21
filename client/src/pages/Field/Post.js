@@ -13,29 +13,22 @@ const Wrapper = styled.div`
 	border-bottom: 1px solid var(--light-text-color);
 	padding: 20px 0;
 	position: relative;
+	color: var(--main-text-color);
 	&:first-child {
 		padding-top: 5px;
 	}
 	&:last-child {
 		border-bottom: none;
 	}
+	& > * {
+		margin: 0;
+	}
 `;
 
-const User = styled.div`
-	color: var(--main-text-color);
-	font-weight: bold;
-`;
-
-const Date = styled.div`
-	font-size: 0.8rem;
-	color: var(--gray-text-color);
-	margin-bottom: 15px;
-`;
-
-const Body = styled.div`
-	color: var(--main-text-color);
-	&:not(:last-child) {
-		margin-bottom: 15px;
+const Body = styled.p`
+	margin: 1rem 0;
+	&:last-child {
+		margin-bottom: 0;
 	}
 `;
 
@@ -106,20 +99,20 @@ const Post = ({ body, postDate, visitDate, userId, postId, conditions, editPost 
 				</Icons>
 			) : null}
 
-			<User>{name}</User>
-			<Date>{postDate}</Date>
+			<h6 className='bold-text'>{name}</h6>
+			<p className='gray small'>{postDate}</p>
 			<Body>{body}</Body>
 
 			{visitDate ? (
-				<div>
+				<p>
 					<strong>Date visited: </strong> {visitDate}
-				</div>
+				</p>
 			) : null}
 
 			{conditionsString ? (
-				<div>
+				<p>
 					<strong>Conditions:</strong> {conditionsString}
-				</div>
+				</p>
 			) : null}
 		</Wrapper>
 	);

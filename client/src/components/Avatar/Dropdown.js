@@ -10,8 +10,8 @@ const Wrapper = styled.div`
 	background-color: var(--main-bg-color);
 `;
 
-const Div = styled.div`
-	font-size: 0.9rem;
+const Div = styled.p`
+	margin: 0;
 	border-radius: 5px;
 	transition: 0.2s all;
 	width: 100%;

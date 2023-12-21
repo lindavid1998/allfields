@@ -17,7 +17,7 @@ const Wrapper = styled.nav`
 	gap: 25px;
 `;
 
-const StyledH1 = styled.h1`
+const Logo = styled.h4`
 	margin-right: auto;
 	color: var(--main-text-color);
 	cursor: pointer;
@@ -43,14 +43,19 @@ const Navbar = () => {
 	return (
 		<Wrapper>
 			<StyledLink to='/'>
-				<StyledH1>AllFields</StyledH1>
+				<Logo>AllFields</Logo>
 			</StyledLink>
 			<Button text='Try AllFields+ for free' color='bright' size='small' />
 			{user ? (
 				<Avatar />
 			) : (
 				<Link to='/sign-in'>
-						<Button text='Log in' color='light' size='small' onClick={() => setRedirectPath(location.pathname)} />
+					<Button
+						text='Log in'
+						color='light'
+						size='small'
+						onClick={() => setRedirectPath(location.pathname)}
+					/>
 				</Link>
 			)}
 		</Wrapper>

@@ -40,7 +40,6 @@ const Back = styled(Link)`
 const Posts = styled.div`
 	display: flex;
 	flex-direction: column;
-	// gap: 20px;
 	padding: 10px 16px;
 `;
 
@@ -116,7 +115,7 @@ const Field = () => {
 		<Wrapper>
 			<Back to='/fields'>
 				<FontAwesomeIcon icon={faArrowLeft} />
-				<div>Back to search</div>
+				<p>Back to search</p>
 			</Back>
 
 			{fieldData && (postData || isPostDataEmpty) ? (

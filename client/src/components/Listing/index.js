@@ -24,21 +24,20 @@ const Details = styled.div`
 	flex-direction: column;
 	color: var(--main-text-color);
 	width: 380px;
+	& > * {
+		margin: 0;
+	}
 `;
 
 const StyledLink = styled(Link)`
-	font-size: 1.3rem;
-	font-weight: bold;
 	color: var(--main-text-color);
+	& > * {
+		margin: 0;
+	}
 `;
 
-const Neighborhood = styled.div`
-	font-size: 1.2rem;
-`;
-
-const Address = styled.div`
+const Address = styled.p`
 	color: var(--gray-text-color);
-	font-size: 0.9rem;
 `;
 
 const Icon = styled.div`
@@ -66,11 +65,11 @@ const Listing = ({ id, name, neighborhood, address, defaultImgPath }) => {
 			</Link>
 			<Details>
 				<StyledLink to={`/fields/${id}`}>
-					<div>
+					<h5>
 						# {id + 1} - {name}
-					</div>
+					</h5>
 				</StyledLink>
-				<Neighborhood>{neighborhood}</Neighborhood>
+				<p>{neighborhood}</p>
 				<Address>{address}</Address>
 				<Icon onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>
 					<FontAwesomeIcon

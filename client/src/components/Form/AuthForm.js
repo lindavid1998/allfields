@@ -25,17 +25,11 @@ const Content = styled.form`
 	> * {
 		align-items: center;
 		display: flex;
+		margin: 0 auto;
 	}
-`;
-
-const StyledH1 = styled.h1`
-	margin: 0 auto;
-`;
-
-const StyledP = styled.p`
-	font-size: 1.1rem;
-	margin: 0 auto;
-	color: var(--main-text-color);
+	> h2, p {
+		text-align: center;
+	}
 `;
 
 const StyledLink = styled(Link)`
@@ -48,11 +42,6 @@ const StyledLink = styled(Link)`
 	&:visited {
 		color: inherit;
 	}
-`;
-
-const TOS = styled.p`
-	font-size: 0.8rem;
-	max-width: 450px;
 `;
 
 export const SignUpForm = () => {
@@ -80,7 +69,7 @@ export const SignUpForm = () => {
 
 	return (
 		<Content>
-			<StyledH1>Create your free account</StyledH1>
+			<h2>Create your free account</h2>
 			<TextInput
 				name='firstName'
 				label='First name'
@@ -115,13 +104,13 @@ export const SignUpForm = () => {
 			/>
 			{error ? <p>{error}</p> : null}
 			<Button size='medium' text='Sign up' stretched='true' onClick={SignUp} />
-			<StyledP>
+			<p>
 				Already have an account? <StyledLink to='/sign-in'>Log in</StyledLink>
-			</StyledP>
-			<TOS>
+			</p>
+			<p className='small'>
 				By continuing to use AllFields, you agree to our Terms of Service and
 				Privacy Policy.
-			</TOS>
+			</p>
 		</Content>
 	);
 };
@@ -167,7 +156,7 @@ export const SignInForm = () => {
 
 	return (
 		<Content>
-			<StyledH1>Welcome back!</StyledH1>
+			<h2>Welcome back!</h2>
 			<TextInput
 				name='email'
 				label='Email'
@@ -199,10 +188,10 @@ export const SignInForm = () => {
 				stretched='true'
 				onClick={SignInWithGoogle}
 			/>
-			<StyledP>
+			<p>
 				Don't have an account?
 				<StyledLink to='/sign-up'>Sign up for free</StyledLink>
-			</StyledP>
+			</p>
 		</Content>
 	);
 };
