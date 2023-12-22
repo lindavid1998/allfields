@@ -1,12 +1,12 @@
 import React, { useState } from 'react';
+import Navbar from './components/Navbar';
 import Landing from './pages/Landing';
 import Auth from './pages/Auth';
-import Navbar from './components/Navbar';
 import Fields from './pages/Fields';
-import AuthStatus from './components/Auth';
+import AuthStatus from './pages/AuthStatus';
+import Field from './pages/Field';
 import { Route, Routes } from 'react-router-dom';
 import styled from 'styled-components';
-import Field from './pages/Field';
 import { PathContext } from './utils';
 
 const Wrapper = styled.div`
@@ -17,7 +17,7 @@ const Wrapper = styled.div`
 `;
 
 function App() {
-	const [redirectPath, setRedirectPath] = useState('/');
+	const [redirectPath, setRedirectPath] = useState('/');	
 
 	return (
 		<Wrapper>

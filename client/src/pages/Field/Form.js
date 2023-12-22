@@ -19,7 +19,7 @@ const StyledForm = styled.form`
 	padding: 20px;
 	gap: 20px;
 	& > * {
-		margin: 0
+		margin: 0;
 	}
 `;
 
@@ -107,7 +107,7 @@ const Form = ({ toggleVisibility, formData, fieldName }) => {
 			updates['/posts/' + key] = postData;
 			update(ref(db), updates);
 		} catch (err) {
-			console.log(err)
+			console.log(err);
 		}
 	};
 
@@ -161,10 +161,8 @@ const Form = ({ toggleVisibility, formData, fieldName }) => {
 					{Object.keys(conditions).map((key, index) => (
 						<Button
 							key={index}
-							size='small'
+							className={`sm-btn unbold-btn ${conditions[key] ? '' : 'light-btn'}`}
 							text={capitalize(key)}
-							color={conditions[key] ? 'primary' : 'light'}
-							bold={false}
 							onClick={() =>
 								setConditions((prevConditions) => ({
 									...prevConditions,
@@ -178,6 +176,7 @@ const Form = ({ toggleVisibility, formData, fieldName }) => {
 
 			<PositionedBtn>
 				<Button
+					className='sm-btn'
 					size='small'
 					text='Post'
 					color='primary'

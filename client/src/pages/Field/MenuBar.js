@@ -4,6 +4,7 @@ import styled from 'styled-components';
 import Button from '../../components/Button';
 import { auth, getUserId } from '../../firebase';
 import { PathContext } from '../../utils';
+import Tab from '../../components/Tab';
 
 const Wrapper = styled.div`
 	display: flex;
@@ -12,28 +13,11 @@ const Wrapper = styled.div`
 	padding: 10px 16px;
 `;
 
-const Tab = styled.button`
-	background: transparent;
-	border: 2px solid transparent;
-	font-size: 1rem;
-	color: var(--main-text-color);
-	padding: 3px;
-	transition: 0.2s all;
-	cursor: pointer;
-	&:hover {
-		border-bottom: 2px solid var(--gray-text-color);
-	}
-	&:first-child {
-		font-weight: bold;
-		border-bottom: 2px solid var(--gray-text-color);
-	}
-`;
-
 const MenuBar = ({ toggleForm }) => {
 	const navigate = useNavigate();
 	const location = useLocation();
 
-	const { redirectPath, setRedirectPath } = useContext(PathContext);
+	const { setRedirectPath } = useContext(PathContext);
 
 	const handleClick = async () => {
 		let userId = getUserId(auth);
@@ -47,10 +31,10 @@ const MenuBar = ({ toggleForm }) => {
 
 	return (
 		<Wrapper>
-			<Tab>Posts</Tab>
-			<Tab>Calendar</Tab>
-			<Tab>Directions</Tab>
-			<Button text='Write post' size='small' onClick={handleClick} />
+			<Tab text='Posts' />
+			<Tab text='Calendar' />
+			<Tab text='Directions' />
+			<Button className='sm-btn' text='Write post' onClick={handleClick} />
 		</Wrapper>
 	);
 };

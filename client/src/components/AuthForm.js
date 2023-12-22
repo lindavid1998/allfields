@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
-import Button from '../Button';
-import TextInput from './TextInput';
+import Button from './Button.js';
+import TextInput from './TextInput.js';
 import { Link } from 'react-router-dom';
-import { auth, provider, db, addUser } from '../../firebase.js';
+import { auth, provider, db, addUser } from '../firebase.js';
 import {
 	createUserWithEmailAndPassword,
 	signInWithEmailAndPassword,
@@ -12,7 +12,7 @@ import {
 import { useNavigate } from 'react-router-dom';
 import { ref, get } from 'firebase/database';
 
-const Content = styled.form`
+const Form = styled.form`
 	display: flex;
 	flex-direction: column;
 	gap: 20px;
@@ -27,7 +27,8 @@ const Content = styled.form`
 		display: flex;
 		margin: 0 auto;
 	}
-	> h2, p {
+	> h2,
+	p {
 		text-align: center;
 	}
 `;
@@ -68,8 +69,9 @@ export const SignUpForm = () => {
 	};
 
 	return (
-		<Content>
+		<Form>
 			<h2>Create your free account</h2>
+
 			<TextInput
 				name='firstName'
 				label='First name'
@@ -78,6 +80,7 @@ export const SignUpForm = () => {
 				value={firstName}
 				onChange={(e) => setFirstName(e.target.value)}
 			/>
+
 			<TextInput
 				name='lastName'
 				label='Last name'
@@ -86,6 +89,7 @@ export const SignUpForm = () => {
 				value={lastName}
 				onChange={(e) => setLastName(e.target.value)}
 			/>
+
 			<TextInput
 				name='email'
 				label='Email'
@@ -94,6 +98,7 @@ export const SignUpForm = () => {
 				value={email}
 				onChange={(e) => setEmail(e.target.value)}
 			/>
+
 			<TextInput
 				name='password'
 				label='Password'
@@ -102,16 +107,24 @@ export const SignUpForm = () => {
 				value={password}
 				onChange={(e) => setPassword(e.target.value)}
 			/>
+
 			{error ? <p>{error}</p> : null}
-			<Button size='medium' text='Sign up' stretched='true' onClick={SignUp} />
+
+			<Button
+				className='md-btn stretched-btn'
+				text='Sign up'
+				onClick={SignUp}
+			/>
+
 			<p>
 				Already have an account? <StyledLink to='/sign-in'>Log in</StyledLink>
 			</p>
+
 			<p className='small'>
 				By continuing to use AllFields, you agree to our Terms of Service and
 				Privacy Policy.
 			</p>
-		</Content>
+		</Form>
 	);
 };
 
@@ -134,18 +147,16 @@ export const SignInForm = () => {
 		try {
 			const userCredential = await signInWithPopup(auth, provider);
 			const user = userCredential.user;
-			const userId = user.uid;
-			const email = user.email;
-			const fullName = user.displayName;
-			const [firstName, lastName] = fullName.split(' ');
+			const { uid, email } = user
+			const [firstName, lastName] = user.displayName.split(' ');
 
 			// reference uid subtree in db
-			const userDbRef = ref(db, 'users/' + userId);
+			const userDbRef = ref(db, 'users/' + uid);
 			const snapshot = await get(userDbRef);
 
 			// if uid subtree does not exist in db, add it
 			if (!snapshot.exists()) {
-				addUser(userId, firstName, lastName, email);
+				addUser(uid, firstName, lastName, email);
 			}
 
 			navigate('/auth-status');
@@ -155,8 +166,9 @@ export const SignInForm = () => {
 	};
 
 	return (
-		<Content>
+		<Form>
 			<h2>Welcome back!</h2>
+
 			<TextInput
 				name='email'
 				label='Email'
@@ -165,6 +177,7 @@ export const SignInForm = () => {
 				value={email}
 				onChange={(e) => setEmail(e.target.value)}
 			/>
+
 			<TextInput
 				name='password'
 				label='Password'
@@ -173,25 +186,26 @@ export const SignInForm = () => {
 				value={password}
 				onChange={(e) => setPassword(e.target.value)}
 			/>
+
 			{error ? <p>{error}</p> : null}
-			<Button size='medium' text='Log in' stretched='true' onClick={SignIn} />
+
+			<Button className='md-btn stretched-btn' text='Log in' onClick={SignIn} />
+
 			<Button
-				size='medium'
+				className='md-btn stretched-btn white-btn'
 				text='Forgot your password?'
-				color='white'
-				stretched='true'
 			/>
+
 			<Button
-				size='medium'
+				className='md-btn stretched-btn blue-btn'
 				text='Continue with Google'
-				color='blue'
-				stretched='true'
 				onClick={SignInWithGoogle}
 			/>
+
 			<p>
 				Don't have an account?
 				<StyledLink to='/sign-up'>Sign up for free</StyledLink>
 			</p>
-		</Content>
+		</Form>
 	);
 };

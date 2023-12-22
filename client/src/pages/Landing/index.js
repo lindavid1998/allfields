@@ -7,7 +7,7 @@ import Quotes from './Quotes';
 import Footer from '../../components/Footer';
 import { auth } from '../../firebase';
 import { getUserFullName } from '../../firebase';
-import LoadingSpinner from '../../components/Spinner';
+import Spinner from '../../components/Spinner';
 
 const Wrapper = styled.div`
 	display: flex;
@@ -48,7 +48,7 @@ const Landing = () => {
 		return () => unsubscribe();
 	}, []);
 
-	if (loading) return <LoadingSpinner />;
+	if (loading) return <Spinner />;
 
 	return (
 		<Wrapper>

@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
-import githubLogo from '../../assets/github-mark-white.png';
-import linkedinLogo from '../../assets/linkedin-logo.svg';
+import githubLogo from '../assets/github-mark-white.png';
+import linkedinLogo from '../assets/linkedin-logo.svg';
 
 const Wrapper = styled.div`
 	width: 100%;

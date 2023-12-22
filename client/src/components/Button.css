@@ -1,0 +1,70 @@
+button {
+  display: flex;
+	justify-content: center;
+	align-items: center;
+	font-weight: normal;
+	line-height: 1.5;
+	border: 2px solid transparent;
+	cursor: pointer;
+	transition: all 0.2s ease-out;
+	border-radius: 9999px;
+	width: fit-content;
+  border-color: var(--main-btn-color);
+  background-color: var(--main-btn-color);
+  color: var(--main-bg-color);
+  font-weight: 700;
+  &:hover {
+		filter: brightness(85%);
+	}
+}
+
+.unbold-btn {
+  font-weight: 400;
+}
+
+.stretched-btn {
+  width: 100%;
+}
+
+.bright-btn {
+  border-color: var(--bright-btn-color);
+  background-color: var(--bright-btn-color);
+  color: var(--main-text-color);
+}
+
+.light-btn {
+  border-color: var(--light-btn-color);
+  background-color: var(--light-btn-color);
+  color: var(--main-text-color);
+}
+
+.blue-btn {
+  background-color: var(--blue-btn-color);
+  border-color: var(--blue-btn-color);
+  color: var(--main-bg-color);
+}
+
+.white-btn {
+  border-color: var(--main-bg-color);
+  background-color: var(--main-bg-color);
+  color: var(--main-text-color);
+}
+
+.sm-btn {
+  font-size: 13px;
+  height: 32px;
+  padding: 0 16px;
+}
+
+.md-btn, .lg-btn {
+  height: 48px;
+  padding: 0 24px;
+}
+
+.md-btn {
+  font-size: 16px;
+}
+
+.lg-btn {
+  font-size: 20px;
+}

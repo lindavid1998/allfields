@@ -41,7 +41,7 @@ const Hero = ({ name }) => {
 					{name ? `Welcome, ${name.split(' ')[0]}` : 'Enjoy the beautiful game'}
 				</StyledH1>
 				<Link to='/fields'>
-					<Button size='medium' text='Find nearby fields' color='bright' />
+					<Button className='md-btn bright-btn' text='Find nearby fields' />
 				</Link>
 			</Text>
 		</Wrapper>

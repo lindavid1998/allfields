@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import SearchBar from '../../components/SearchBar';
+import Searchbar from '../../components/Searchbar';
 import Button from '../../components/Button';
 
 const Wrapper = styled.div`
@@ -18,14 +18,14 @@ const Wrapper = styled.div`
 const Header = () => {
 	return (
 		<Wrapper>
-			<SearchBar />
+			<Searchbar />
 			<div>
 				Or search by <strong>neighborhood:</strong>
 			</div>
-			<Button color='light' text='Mira Mesa' />
-			<Button color='light' text='La Jolla' />
-			<Button color='light' text='Rancho Penasquitos' />
-			<Button color='light' text='Kearny Mesa' />
+			<Button className='light-btn sm-btn' text='Mira Mesa' />
+			<Button className='light-btn sm-btn' text='La Jolla' />
+			<Button className='light-btn sm-btn' text='Rancho Penasquitos' />
+			<Button className='light-btn sm-btn' text='Kearny Mesa' />
 		</Wrapper>
 	);
 };

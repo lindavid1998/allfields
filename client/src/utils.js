@@ -2,11 +2,6 @@ import { useEffect, useState, createContext } from 'react';
 import { getDownloadURL, ref } from 'firebase/storage';
 import { storage } from './firebase';
 
-// export const PathContext = createContext({
-// 	path: '/',
-// 	setPath: () => {}
-// });
-
 export const PathContext = createContext()
 
 export const useImagePathToURL = (path) => {

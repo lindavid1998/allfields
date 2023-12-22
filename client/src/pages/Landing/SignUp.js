@@ -42,11 +42,11 @@ const SignUp = ({ user }) => {
 				<div>
 					{user ? (
 						<Link to='/fields'>
-							<Button text='Find fields' color='primary' size='medium' />
+							<Button text='Find fields' className='md-btn' />
 						</Link>
 					) : (
 						<Link to='/sign-up'>
-							<Button text='Sign up' color='primary' size='medium' />
+							<Button text='Sign up' className='md-btn' />
 						</Link>
 					)}
 				</div>
