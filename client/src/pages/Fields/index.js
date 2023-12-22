@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import Listing from '../../components/Listing';
-import Header from './Header';
+import MenuBar from './MenuBar';
 import { db } from '../../firebase';
 import { ref, get } from 'firebase/database';
+import Spinner from '../../components/Spinner';
 
 const Wrapper = styled.div`
 	display: flex;
@@ -27,27 +28,25 @@ const Fields = () => {
 			} catch (err) {
 				console.log(err);
 			}
-		}
+		};
 		getFieldsData();
 	}, []);
-	
+
+	if (!data) return <Spinner />;
+
 	return (
 		<Wrapper>
-			<Header />
-			{data ? (
-				data.map((field, index) => (
-					<Listing
-						key={index}
-						id={index}
-						name={field.name}
-						neighborhood={field.neighborhood}
-						address={field.address}
-						defaultImgPath={field.defaultImg}
-					/>
-				))
-			) : (
-				<p>Loading...</p>
-			)}
+			<MenuBar />
+			{data.map((field, index) => (
+				<Listing
+					key={index}
+					id={index}
+					name={field.name}
+					neighborhood={field.neighborhood}
+					address={field.address}
+					defaultImgPath={field.defaultImg}
+				/>
+			))}
 		</Wrapper>
 	);
 };

@@ -15,7 +15,7 @@ const Wrapper = styled.div`
 	padding: 15px 0;
 `;
 
-const Header = () => {
+const MenuBar = () => {
 	return (
 		<Wrapper>
 			<Searchbar />
@@ -30,4 +30,4 @@ const Header = () => {
 	);
 };
 
-export default Header;
+export default MenuBar;

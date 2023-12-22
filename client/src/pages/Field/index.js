@@ -9,6 +9,7 @@ import { Link, useParams } from 'react-router-dom';
 import { db } from '../../firebase';
 import { ref, onValue, equalTo, query, orderByChild } from 'firebase/database';
 import Hero from './Hero';
+import Spinner from '../../components/Spinner';
 
 const Wrapper = styled.div`
 	max-width: var(--max-width);
@@ -110,6 +111,8 @@ const Field = () => {
 		setFormData(currentData); // load form with current data
 		toggleFormVisibility();
 	};
+
+	if (!fieldData) return <Spinner />
 
 	return (
 		<Wrapper>

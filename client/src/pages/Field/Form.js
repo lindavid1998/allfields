@@ -112,13 +112,9 @@ const Form = ({ toggleVisibility, formData, fieldName }) => {
 	};
 
 	const handleSubmit = () => {
-		// read user ID
 		let userId = getUserId(auth);
-
-		// read field ID
 		const fieldId = params.fieldId;
-
-		writePost(userId, visitDate, body, fieldId, conditions); // write post to database
+		writePost(userId, visitDate, body, fieldId, conditions); // write to database
 		toggleVisibility(); // hide form
 	};
 
@@ -177,9 +173,7 @@ const Form = ({ toggleVisibility, formData, fieldName }) => {
 			<PositionedBtn>
 				<Button
 					className='sm-btn'
-					size='small'
 					text='Post'
-					color='primary'
 					type='submit'
 					onClick={handleSubmit}
 				/>
