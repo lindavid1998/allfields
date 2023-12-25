@@ -87,12 +87,12 @@ const Form = ({ toggleVisibility, formData, fieldName }) => {
 		postDate = postDate.toISOString().split('T')[0];
 
 		const postData = {
-			postDate: postDate,
-			visitDate: visitDate,
-			body: body,
-			fieldId: fieldId,
-			userId: userId,
-			conditions: conditions,
+			postDate,
+			visitDate,
+			body,
+			fieldId,
+			userId,
+			conditions,
 		};
 
 		// use existing postId as key if editing post, otherwise generate new key

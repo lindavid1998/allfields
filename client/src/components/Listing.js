@@ -1,11 +1,14 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import styled from 'styled-components';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faHeart as regularHeart } from '@fortawesome/free-regular-svg-icons';
 import { faHeart as solidHeart } from '@fortawesome/free-solid-svg-icons';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { useImagePathToURL } from '../utils';
 import Spinner from './Spinner';
+import { db, auth, getUserId } from '../firebase';
+import { ref, set, get, remove, onValue } from 'firebase/database';
+import { PathContext } from '../utils';
 
 const Wrapper = styled.div`
 	display: flex;
@@ -56,9 +59,24 @@ const Div = styled.div`
 `;
 
 const Listing = ({ id, name, neighborhood, address, defaultImgPath }) => {
-	const imgUrl = useImagePathToURL(defaultImgPath)
+	const imgUrl = useImagePathToURL(defaultImgPath);
 	const [isHovered, setIsHovered] = useState(false);
 	const [isLoading, setIsLoading] = useState(true);
+	const [isFavorite, setIsFavorite] = useState(false);
+	const navigate = useNavigate();
+	const location = useLocation();
+	const { setRedirectPath } = useContext(PathContext);
+
+	const uid = getUserId(auth);
+	const favoritesRef = ref(db, `/users/${uid}/favorites/${id}`);
+
+	useEffect(() => {
+		const unsubscribe = onValue(favoritesRef, (snapshot) => {
+			snapshot.exists() ? setIsFavorite(true) : setIsFavorite(false);
+		});
+
+		return () => unsubscribe(); // Unsubscribe when the component unmounts
+	}, [favoritesRef]); 
 
 	const handleMouseEnter = () => {
 		setIsHovered(true);
@@ -70,7 +88,22 @@ const Listing = ({ id, name, neighborhood, address, defaultImgPath }) => {
 
 	const handleLoad = () => {
 		setIsLoading(false);
-	}
+	};
+
+	const handleFavorite = () => {
+		// if user is not signed in, route to sign in page
+		if (!uid) {
+			setRedirectPath(location.pathname)
+			navigate('/sign-in');
+			return
+		}
+
+		get(favoritesRef)
+			.then((snapshot) => {
+				snapshot.exists() ? remove(favoritesRef) : set(favoritesRef, true);
+			})
+			.catch(console.error);
+	};
 
 	return (
 		<Wrapper>
@@ -93,9 +126,13 @@ const Listing = ({ id, name, neighborhood, address, defaultImgPath }) => {
 				</StyledLink>
 				<p>{neighborhood}</p>
 				<Address>{address}</Address>
-				<Icon onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>
+				<Icon
+					onClick={handleFavorite}
+					onMouseEnter={handleMouseEnter}
+					onMouseLeave={handleMouseLeave}
+				>
 					<FontAwesomeIcon
-						icon={isHovered ? solidHeart : regularHeart}
+						icon={isHovered || isFavorite ? solidHeart : regularHeart}
 						size='2x'
 					/>
 				</Icon>
