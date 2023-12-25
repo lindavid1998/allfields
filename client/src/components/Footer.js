@@ -12,7 +12,7 @@ const Wrapper = styled.div`
 const Content = styled.div`
 	display: flex;
 	align-items: center;
-	justify-content: end;
+	justify-content: center;
 	gap: 20px;
 	max-width: var(--max-width);
 	margin: 0 auto;

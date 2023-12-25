@@ -12,7 +12,6 @@ import Spinner from '../../components/Spinner';
 const Wrapper = styled.div`
 	display: flex;
 	flex-direction: column;
-	flex-grow: 0;
 	align-items: center;
 	width: 100%;
 `;

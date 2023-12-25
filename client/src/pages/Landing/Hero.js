@@ -6,19 +6,19 @@ import { Link } from 'react-router-dom';
 
 const StyledH1 = styled.h1`
 	color: #fff;
-	font-size: 50px;
 `;
 
 const Wrapper = styled.div`
 	position: relative;
 	width: 100%;
+	height: 500px;
 	display: flex;
 	align-items: center;
 	justify-content: center;
 `;
 
 const Img = styled.img`
-	height: 315px;
+	height: 100%;
 	width: 100%;
 	object-fit: cover;
 	filter: brightness(0.7);
