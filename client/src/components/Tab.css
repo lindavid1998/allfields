@@ -1,0 +1,19 @@
+.tab {
+	background: transparent;
+	border: 2px solid transparent;
+	color: var(--main-text-color);
+	padding: 3px;
+	transition: 0.2s border-bottom;
+  cursor: pointer;
+  border-bottom: 2px solid transparent;
+}
+
+.tab:hover {
+  border-bottom: 2px solid var(--gray-text-color);
+}
+
+.tab.active {
+  font-weight: bold;
+  border-bottom: 2px solid var(--gray-text-color);
+}
+	

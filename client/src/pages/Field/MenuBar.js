@@ -1,22 +1,14 @@
-import React, { useContext } from 'react';
+import React, { useState, useContext } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
-import styled from 'styled-components';
 import Button from '../../components/Button';
 import { auth, getUserId } from '../../firebase';
 import { PathContext } from '../../utils';
 import Tab from '../../components/Tab';
 
-const Wrapper = styled.div`
-	display: flex;
-	align-items: center;
-	gap: 30px;
-	padding: 10px 16px;
-`;
-
 const MenuBar = ({ toggleForm }) => {
 	const navigate = useNavigate();
 	const location = useLocation();
-
+	const [activeTab, setActiveTab] = useState('Posts');
 	const { setRedirectPath } = useContext(PathContext);
 
 	const handleClick = async () => {
@@ -29,13 +21,21 @@ const MenuBar = ({ toggleForm }) => {
 		}
 	};
 
+	const tabs = ['Posts', 'Calendar', 'Directions'];
+
 	return (
-		<Wrapper>
-			<Tab text='Posts' />
-			<Tab text='Calendar' />
-			<Tab text='Directions' />
+		<div className='menu-bar'>
+			{tabs.map((tab, index) => (
+				<Tab
+					key={index}
+					text={tab}
+					onClick={() => setActiveTab(tab)}
+					className={activeTab === tab ? 'active tab' : 'tab'}
+				/>
+			))}
+
 			<Button className='sm-btn' text='Write post' onClick={handleClick} />
-		</Wrapper>
+		</div>
 	);
 };
 

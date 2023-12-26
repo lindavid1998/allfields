@@ -110,3 +110,10 @@ p.gray {
 	width: 80px;
 	height: 80px;
 }
+
+.menu-bar {
+	display: flex;
+	align-items: center;
+	gap: 25px;
+	padding: 0 16px;
+}
