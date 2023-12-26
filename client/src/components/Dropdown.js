@@ -27,7 +27,7 @@ const Tab = styled.p`
 	}
 `;
 
-const Dropdown = () => {
+const Dropdown = ({ hideDropdown }) => {
 	const navigate = useNavigate();
 	const location = useLocation();
 	const { setRedirectPath } = useContext(PathContext);
@@ -45,13 +45,19 @@ const Dropdown = () => {
 
 	return (
 		<StyledDropdown>
-			<Tab>
-				<Link to={`users/${uid}`} style={{ display: 'block', color: 'inherit', width: '100%' }}>
+			<Tab onClick={hideDropdown}>
+				<Link
+					to={`users/${uid}`}
+					style={{ display: 'block', color: 'inherit', width: '100%' }}
+				>
 					Profile
 				</Link>
 			</Tab>
-			<Tab>Settings</Tab>
-			<Tab onClick={logOut}>Logout</Tab>
+			<Tab onClick={hideDropdown}>Settings</Tab>
+      <Tab onClick={() => {
+        logOut()
+        hideDropdown()
+      }}>Logout</Tab>
 		</StyledDropdown>
 	);
 };

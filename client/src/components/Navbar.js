@@ -34,7 +34,7 @@ const Div = styled.div`
 
 const Navbar = () => {
 	const [user, setUser] = useState(null);
-	const [showDropdown, setShowDropdown] = useState(false);
+	const [isDropdownVisible, setIsDropdownVisible] = useState(false);
 	const location = useLocation();
 	const { setRedirectPath } = useContext(PathContext);
 
@@ -46,9 +46,17 @@ const Navbar = () => {
 		return () => unsubscribe();
 	}, []);
 
-	const handleClick = () => {
-		setShowDropdown((prevState) => !prevState);
+	const toggleDropdown = () => {
+		setIsDropdownVisible((prevState) => !prevState);
 	};
+
+	const hideDropdown = () => {
+		setIsDropdownVisible(false);
+	}
+
+	const handleLogin = () => {
+		setRedirectPath(location.pathname)
+	}
 
 	return (
 		<Wrapper>
@@ -60,15 +68,15 @@ const Navbar = () => {
 
 			{user ? (
 				<Div>
-					<Avatar onClick={handleClick} />
-					{showDropdown && <Dropdown />}
+					<Avatar onClick={toggleDropdown} />
+					{isDropdownVisible && <Dropdown hideDropdown={hideDropdown} />}
 				</Div>
 			) : (
 				<Link to='/sign-in'>
 					<Button
 						className='sm-btn light-btn'
 						text='Log in'
-						onClick={() => setRedirectPath(location.pathname)}
+						onClick={handleLogin}
 					/>
 				</Link>
 			)}
