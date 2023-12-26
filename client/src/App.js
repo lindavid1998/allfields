@@ -3,6 +3,7 @@ import Navbar from './components/Navbar';
 import Landing from './pages/Landing';
 import Auth from './pages/Auth';
 import Fields from './pages/Fields';
+import Profile from './pages/Profile';
 import AuthStatus from './pages/AuthStatus';
 import Field from './pages/Field';
 import { Route, Routes } from 'react-router-dom';
@@ -14,6 +15,7 @@ const Wrapper = styled.div`
 	flex-direction: column;
 	align-items: center;
 	width: 100%;
+	height: 100%;
 `;
 
 function App() {
@@ -26,6 +28,7 @@ function App() {
 				<Routes>
 					<Route path='/' element={<Landing />} />
 					<Route path='/auth-status' element={<AuthStatus />} />
+					<Route path='/users/:userId' element={<Profile />} />
 					<Route path='/fields' element={<Fields />} />
 					<Route path='/fields/:fieldId' element={<Field />} />
 					<Route
