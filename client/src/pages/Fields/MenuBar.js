@@ -12,7 +12,6 @@ const Wrapper = styled.div`
 	position: sticky;
 	top: 0px;
 	background-color: var(--main-bg-color);
-	padding: 15px 0;
 `;
 
 const MenuBar = () => {

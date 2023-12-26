@@ -1,6 +1,6 @@
 import { initializeApp } from 'firebase/app';
 import { getAuth, GoogleAuthProvider } from 'firebase/auth';
-import { ref, set, query, get, getDatabase } from 'firebase/database';
+import { ref, set, get, getDatabase } from 'firebase/database';
 import { getStorage } from 'firebase/storage';
 
 const firebaseConfig = {
@@ -24,10 +24,12 @@ export const storage = getStorage();
 
 export const addUser = (userId, firstName, lastName, email) => {
 	// adds user to realtime database
+	const joinDate = new Date().toISOString().split('T')[0];
 	set(ref(db, 'users/' + userId), {
-		email: email,
-		firstName: firstName,
-		lastName: lastName,
+		email,
+		firstName,
+		lastName,
+		joinDate,
 	}).catch((err) => console.error(err));
 };
 
@@ -40,8 +42,8 @@ export const getUserId = (auth) => {
 export const getUserFullName = async (uid) => {
 	// returns user's full name as string
 	try {
-		const dataRef = query(ref(db, 'users/' + uid));
-		const snapshot = await get(dataRef);
+		const userRef = ref(db, 'users/' + uid);
+		const snapshot = await get(userRef);
 		const data = snapshot.val();
 		return `${data.firstName} ${data.lastName}`;
 	} catch (error) {

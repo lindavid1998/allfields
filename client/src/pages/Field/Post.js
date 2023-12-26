@@ -26,7 +26,7 @@ const Wrapper = styled.div`
 `;
 
 const Body = styled.p`
-	margin: 1rem 1rem 1rem 0;
+	margin: 1rem 50px 1rem 0;
 	&:last-child {
 		margin-bottom: 0;
 	}
