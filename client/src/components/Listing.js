@@ -58,7 +58,14 @@ const Div = styled.div`
 	align-items: center;
 `;
 
-const Listing = ({ id, name, neighborhood, address, defaultImgPath }) => {
+const Listing = ({
+	id,
+	name,
+	neighborhood,
+	address,
+	defaultImgPath,
+	onRemoveFavorite,
+}) => {
 	const imgUrl = useImagePathToURL(defaultImgPath);
 	const [isHovered, setIsHovered] = useState(false);
 	const [isLoading, setIsLoading] = useState(true);
@@ -76,7 +83,7 @@ const Listing = ({ id, name, neighborhood, address, defaultImgPath }) => {
 		});
 
 		return () => unsubscribe(); // Unsubscribe when the component unmounts
-	}, [favoritesRef]); 
+	}, [favoritesRef]);
 
 	const handleMouseEnter = () => {
 		setIsHovered(true);
@@ -90,19 +97,25 @@ const Listing = ({ id, name, neighborhood, address, defaultImgPath }) => {
 		setIsLoading(false);
 	};
 
-	const handleFavorite = () => {
+	const handleFavorite = async () => {
 		// if user is not signed in, route to sign in page
 		if (!uid) {
-			setRedirectPath(location.pathname)
+			setRedirectPath(location.pathname);
 			navigate('/sign-in');
-			return
+			return;
 		}
 
-		get(favoritesRef)
-			.then((snapshot) => {
-				snapshot.exists() ? remove(favoritesRef) : set(favoritesRef, true);
-			})
-			.catch(console.error);
+		try {
+			const snapshot = await get(favoritesRef);
+			if (snapshot.exists()) {
+				await remove(favoritesRef);
+				onRemoveFavorite();
+			} else {
+				await set(favoritesRef, true);
+			}
+		} catch (error) {
+			console.error(error);
+		}
 	};
 
 	return (
@@ -118,14 +131,16 @@ const Listing = ({ id, name, neighborhood, address, defaultImgPath }) => {
 					/>
 				</Div>
 			</Link>
+
 			<Details>
 				<StyledLink to={`/fields/${id}`}>
-					<h5>
-						# {id + 1} - {name}
-					</h5>
+					<h5>{name}</h5>
 				</StyledLink>
+
 				<p>{neighborhood}</p>
+
 				<Address>{address}</Address>
+				
 				<Icon
 					onClick={handleFavorite}
 					onMouseEnter={handleMouseEnter}

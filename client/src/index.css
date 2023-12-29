@@ -117,3 +117,10 @@ p.gray {
 	gap: 25px;
 	padding: 0 16px;
 }
+
+.spinner.sm {
+	width: 25px;
+	height: 25px;
+	border: 5px solid #f3f3f3; 
+	border-top: 5px solid #383636; 
+}

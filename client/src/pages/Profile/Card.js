@@ -1,50 +1,28 @@
-import React, { useEffect, useState } from 'react';
-import { getUserFullName, db } from '../../firebase';
-import { useParams } from 'react-router-dom';
-import { ref, get } from 'firebase/database';
+import React from 'react';
 import Avatar from '../../components/Avatar';
+import Spinner from '../../components/Spinner';
+import styled from 'styled-components';
 
-const Card = () => {
-	const { userId } = useParams();
-	const [name, setName] = useState(null);
-	const [joinDate, setJoinDate] = useState(null);
+const Div = styled.div`
+	background-color: var(--main-bg-color);
+	box-shadow: 0 8px 16px -1px rgba(0, 0, 0, 0.3);
+	width: 30%;
+	height: fit-content;
+`;
 
-	useEffect(() => {
-		const getName = async () => {
-			try {
-				setName(await getUserFullName(userId));
-			} catch (error) {
-				console.error(error);
-			}
-		};
-
-		const getUserJoinDate = async () => {
-			try {
-				const userRef = ref(db, 'users/' + userId);
-				const snapshot = await get(userRef);
-				setJoinDate(snapshot.val().joinDate);
-			} catch (err) {
-				console.log(err);
-			}
-		};
-
-		getName();
-		getUserJoinDate();
-	}, []);
-
+const Card = ({ name, joinDate }) => {
 	return (
-		<div
-			style={{
-				backgroundColor: 'var(--main-bg-color)',
-				boxShadow: '0 8px 16px -1px rgba(0,0,0,.3)',
-				width: '30%',
-				height: 'fit-content',
-			}}
-		>
+		<Div>
 			<Avatar className='md' />
-			<h4>{name ? name : 'Loading...'}</h4>
-			<p>{joinDate ? `Member since ${joinDate}` : 'Loading...'}</p>
-		</div>
+
+			<h4>{name ? name : <Spinner className='spinner sm' />}</h4>
+
+			{joinDate ? (
+				<p>Member since {joinDate}</p>
+			) : (
+				<Spinner className='spinner sm' />
+			)}
+		</Div>
 	);
 };
 

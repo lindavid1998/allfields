@@ -1,15 +1,21 @@
 import React, { useState } from 'react'
 import Tab from '../../components/Tab'
 import styled from 'styled-components';
+import Favorites from './Favorites';
 
 const Wrapper = styled.div`
 	background-color: var(--main-bg-color);
 	width: 60%;
 	height: 70%;
+	display: flex;
+	gap: 12px;
+	flex-direction: column;
+	> :first-child {
+		margin-bottom: 12px;
+	}
 `;
 
-const Menu = () => {
-	const [activeTab, setActiveTab] = useState('Posts');
+const Menu = ({ setActiveTab, activeTab }) => {
 	const tabs = ['Posts', 'Favorites']
 
 	return (
@@ -27,10 +33,13 @@ const Menu = () => {
 }
 
 const Activity = () => {
+	const [activeTab, setActiveTab] = useState('Posts');
+
   return (
 		<Wrapper>
-			<Menu />
-			<p>Coming soon...</p>
+			<Menu activeTab={activeTab} setActiveTab={setActiveTab} />
+			{activeTab === 'Posts' && <p>Coming soon...</p>}
+			{activeTab === 'Favorites' && <Favorites />}
 		</Wrapper>
 	);
 }
