@@ -38,7 +38,7 @@ const Icons = styled.div`
 	position: absolute;
 	top: 20px;
 	right: 50px;
-`
+`;
 
 const Icon = styled.div`
 	transition: transform 0.2s ease-in-out;
@@ -47,7 +47,15 @@ const Icon = styled.div`
 	}
 `;
 
-const Post = ({ body, postDate, visitDate, userId, postId, conditions, editPost }) => {
+const Post = ({
+	body,
+	postDate,
+	visitDate,
+	userId,
+	postId,
+	conditions,
+	editPost,
+}) => {
 	let [name, setName] = useState('');
 	let [isAuthorizedUser, setIsAuthorizedUser] = useState(false);
 
@@ -83,7 +91,9 @@ const Post = ({ body, postDate, visitDate, userId, postId, conditions, editPost 
 		return arr.join(', '); // join array by comma, capitalizing each word
 	};
 
-	const conditionsString = conditions ? convertConditionsToString(conditions) : '';
+	const conditionsString = conditions
+		? convertConditionsToString(conditions)
+		: '';
 
 	return (
 		<Wrapper>
@@ -99,8 +109,14 @@ const Post = ({ body, postDate, visitDate, userId, postId, conditions, editPost 
 				</Icons>
 			) : null}
 
-			<h6 className='bold-text'>{name}</h6>
+			<h6 className='bold-text'>
+				<a href={`/users/${userId}`} style={{ textDecoration: 'none', color: 'inherit' }}>
+					{name}
+				</a>
+			</h6>
+
 			<p className='gray small'>{postDate}</p>
+			
 			<Body>{body}</Body>
 
 			{visitDate ? (
