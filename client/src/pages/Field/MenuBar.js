@@ -5,13 +5,13 @@ import { auth, getUserId } from '../../firebase';
 import { PathContext } from '../../utils';
 import Tab from '../../components/Tab';
 
-const MenuBar = ({ toggleForm }) => {
+const MenuBar = ({ toggleForm, openMaps }) => {
 	const navigate = useNavigate();
 	const location = useLocation();
 	const [activeTab, setActiveTab] = useState('Posts');
 	const { setRedirectPath } = useContext(PathContext);
 
-	const handleClick = async () => {
+	const handleWritePost = async () => {
 		let userId = getUserId(auth);
 		if (!userId) {
 			setRedirectPath(location.pathname);
@@ -29,12 +29,12 @@ const MenuBar = ({ toggleForm }) => {
 				<Tab
 					key={index}
 					text={tab}
-					onClick={() => setActiveTab(tab)}
+					onClick={tab === 'Directions' ? openMaps : () => setActiveTab(tab)}
 					className={activeTab === tab ? 'active tab' : 'tab'}
 				/>
 			))}
 
-			<Button className='sm-btn' text='Write post' onClick={handleClick} />
+			<Button className='sm-btn' text='Write post' onClick={handleWritePost} />
 		</div>
 	);
 };
