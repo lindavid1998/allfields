@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
-import { getUserFullName } from '../../firebase';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faTrashCan, faPenToSquare } from '@fortawesome/free-regular-svg-icons';
-import { db, auth, getUserId } from '../../firebase';
-import { ref, remove } from 'firebase/database';
-import { capitalize } from '../../utils';
+import { getUserFullName } from '../firebase';
+import { db, auth, getUserId } from '../firebase';
+import { ref, remove, get } from 'firebase/database';
+import { capitalize } from '../utils';
+import PostIcons from './PostIcons';
+import PostHeader from './PostHeader';
 
 const Wrapper = styled.div`
 	display: flex;
@@ -32,21 +32,6 @@ const Body = styled.p`
 	}
 `;
 
-const Icons = styled.div`
-	display: flex;
-	gap: 10px;
-	position: absolute;
-	top: 20px;
-	right: 50px;
-`;
-
-const Icon = styled.div`
-	transition: transform 0.2s ease-in-out;
-	&:hover {
-		transform: scale(1.2);
-	}
-`;
-
 const Post = ({
 	body,
 	postDate,
@@ -55,8 +40,12 @@ const Post = ({
 	postId,
 	conditions,
 	editPost,
+	showIcons = true,
+	header = 'name',
+	fieldId,
 }) => {
 	let [name, setName] = useState('');
+	let [field, setField] = useState('');
 	let [isAuthorizedUser, setIsAuthorizedUser] = useState(false);
 
 	useEffect(() => {
@@ -69,11 +58,26 @@ const Post = ({
 			}
 		};
 
-		fetchName();
+		const fetchFieldName = async () => {
+			try {
+				const fieldRef = ref(db, `/fields/${fieldId}`);
+				const snapshot = await get(fieldRef);
+				const field = snapshot.val();
+				setField(field.name);
+			} catch (error) {
+				console.error(error);
+			}
+		};
+
+		if (header === 'name') {
+			fetchName();
+		} else {
+			fetchFieldName();
+		}
 
 		let currentUserId = getUserId(auth);
 		setIsAuthorizedUser(currentUserId === userId);
-	}, [userId]);
+	}, [header, userId, fieldId]);
 
 	const deletePost = async (postId) => {
 		try {
@@ -88,48 +92,35 @@ const Post = ({
 		let entries = Object.entries(conditions); // convert conditions object to an array of key-value pairs
 		let filteredEntries = entries.filter(([key, value]) => value); // only keep pairs that have value of true
 		let arr = filteredEntries.map((subArr) => capitalize(subArr[0])); // map filtered keys to an array
+
+		if (arr.length == 0) return ''
+
 		return arr.join(', '); // join array by comma, capitalizing each word
 	};
-
-	const conditionsString = conditions
-		? convertConditionsToString(conditions)
-		: '';
+	
+	const conditionsString = convertConditionsToString(conditions)
 
 	return (
 		<Wrapper>
-			{isAuthorizedUser ? (
-				<Icons>
-					<Icon onClick={editPost}>
-						<FontAwesomeIcon icon={faPenToSquare} />
-					</Icon>
+			{isAuthorizedUser && showIcons && <PostIcons postId={postId} editPost={editPost} deletePost={deletePost} />}
 
-					<Icon onClick={() => deletePost(postId)}>
-						<FontAwesomeIcon icon={faTrashCan} />
-					</Icon>
-				</Icons>
-			) : null}
-
-			<h6 className='bold-text'>
-				<a href={`/users/${userId}`} style={{ textDecoration: 'none', color: 'inherit' }}>
-					{name}
-				</a>
-			</h6>
+			<PostHeader header={header} fieldId={fieldId} userId={userId} field={field} name={name} />
 
 			<p className='gray small'>{postDate}</p>
-			
+
 			<Body>{body}</Body>
 
-			{visitDate ? (
+			{visitDate && (
 				<p>
 					<strong>Date visited: </strong> {visitDate}
 				</p>
-			) : null}
+			)}
 
-			{conditionsString ? (
+			{conditionsString && (
 				<p>
 					<strong>Conditions:</strong> {conditionsString}
 				</p>
-			) : null}
+			)}
 		</Wrapper>
 	);
 };

@@ -1,13 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import MenuBar from './MenuBar';
-import Post from './Post';
+import Post from '../../components/Post';
 import Form from './Form';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowLeft } from '@fortawesome/free-solid-svg-icons';
 import { Link, useParams } from 'react-router-dom';
 import { db } from '../../firebase';
-import { ref, onValue, equalTo, query, orderByChild } from 'firebase/database';
+import { ref, onValue, equalTo, query, orderByChild, off } from 'firebase/database';
 import Hero from './Hero';
 import Spinner from '../../components/Spinner';
 
@@ -72,6 +72,7 @@ const Field = () => {
 				onValue(dataRef, (snapshot) => {
 					setFieldData(snapshot.val());
 				});
+				return () => off(dataRef);
 			} catch (err) {
 				console.log(err);
 			}
@@ -94,6 +95,8 @@ const Field = () => {
 						setIsPostDataEmpty(true);
 					}
 				});
+
+				return () => off(dataRef);
 			} catch (err) {
 				console.log(err);
 			}
@@ -110,6 +113,11 @@ const Field = () => {
 	const handleEdit = (currentData) => {
 		setFormData(currentData); // load form with current data
 		toggleFormVisibility();
+	};
+
+	const openMaps = () => {
+		var mapsUrl = `https://www.google.com/maps?q=${fieldData.latitude},${fieldData.longitude}`;
+		window.open(mapsUrl, '_blank');
 	};
 
 	if (!fieldData) return <Spinner />
@@ -130,6 +138,7 @@ const Field = () => {
 					/>
 
 					<MenuBar
+						openMaps={openMaps}
 						toggleForm={() => {
 							toggleFormVisibility();
 							setFormData(null);
@@ -149,7 +158,7 @@ const Field = () => {
 									visitDate={data.visitDate}
 									userId={data.userId}
 									conditions={data.conditions}
-									editPost={() => handleEdit({...data, postId})}
+									editPost={() => handleEdit({ ...data, postId })}
 								/>
 							))
 						)}

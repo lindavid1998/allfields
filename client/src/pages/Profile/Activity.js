@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import Tab from '../../components/Tab'
 import styled from 'styled-components';
 import Favorites from './Favorites';
+import Posts from './Posts';
 
 const Wrapper = styled.div`
 	background-color: var(--main-bg-color);
@@ -38,7 +39,7 @@ const Activity = () => {
   return (
 		<Wrapper>
 			<Menu activeTab={activeTab} setActiveTab={setActiveTab} />
-			{activeTab === 'Posts' && <p>Coming soon...</p>}
+			{activeTab === 'Posts' && <Posts />}
 			{activeTab === 'Favorites' && <Favorites />}
 		</Wrapper>
 	);
