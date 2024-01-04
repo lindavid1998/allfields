@@ -7,7 +7,7 @@ import Posts from './Posts';
 const Wrapper = styled.div`
 	background-color: var(--main-bg-color);
 	width: 60%;
-	height: 70%;
+	height: fit-content;
 	display: flex;
 	gap: 12px;
 	flex-direction: column;

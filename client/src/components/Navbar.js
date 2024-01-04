@@ -68,7 +68,7 @@ const Navbar = () => {
 
 			{user ? (
 				<Div>
-					<Avatar onClick={toggleDropdown} />
+					<Avatar onClick={toggleDropdown} userId={user.uid} />
 					{isDropdownVisible && <Dropdown hideDropdown={hideDropdown} />}
 				</Div>
 			) : (

@@ -104,9 +104,9 @@ const Post = ({
 		<Wrapper>
 			{isAuthorizedUser && showIcons && <PostIcons postId={postId} editPost={editPost} deletePost={deletePost} />}
 
-			<PostHeader header={header} fieldId={fieldId} userId={userId} field={field} name={name} />
+			<PostHeader header={header} fieldId={fieldId} userId={userId} field={field} name={name} postDate={postDate} />
 
-			<p className='gray small'>{postDate}</p>
+			{/* <p className='gray small'>{postDate}</p> */}
 
 			<Body>{body}</Body>
 

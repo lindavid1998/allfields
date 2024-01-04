@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect } from 'react';
 import { getUserFullName, db } from '../../firebase';
 import { ref, get } from 'firebase/database';
 import Card from './Card';
@@ -57,14 +57,14 @@ const Profile = () => {
 		getUserJoinDate();
 	}, [userId]);
 
-  return (
+	return (
 		<Wrapper>
 			<Div>
-				<Card name={name} joinDate={joinDate} />
-				<Activity key={userId} />
+				<Card key={`${userId}-card`} name={name} joinDate={joinDate} />
+				<Activity key={`${userId}-activity`} />
 			</Div>
 		</Wrapper>
 	);
-}
+};
 
 export default Profile;

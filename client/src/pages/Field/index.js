@@ -7,7 +7,14 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowLeft } from '@fortawesome/free-solid-svg-icons';
 import { Link, useParams } from 'react-router-dom';
 import { db } from '../../firebase';
-import { ref, onValue, equalTo, query, orderByChild, off } from 'firebase/database';
+import {
+	ref,
+	onValue,
+	equalTo,
+	query,
+	orderByChild,
+	off,
+} from 'firebase/database';
 import Hero from './Hero';
 import Spinner from '../../components/Spinner';
 
@@ -44,18 +51,13 @@ const Posts = styled.div`
 	padding: 10px 16px;
 `;
 
-const PositionedForm = styled.div`
-	position: fixed;
-	top: 0;
-	left: 0;
-	width: 100vw;
-	height: 100vh;
-	background-color: rgba(0, 0, 0, 0.8);
-	display: flex;
-	align-items: center;
-	justify-content: center;
-	z-index: 999;
-`;
+const PostForm = (props) => {
+	return (
+		<div className='form-overlay'>
+			<Form {...props} />
+		</div>
+	);
+};
 
 const Field = () => {
 	const [isFormVisible, setIsFormVisible] = useState(false);
@@ -120,7 +122,12 @@ const Field = () => {
 		window.open(mapsUrl, '_blank');
 	};
 
-	if (!fieldData) return <Spinner />
+	const toggleForm = () => {
+		toggleFormVisibility();
+		setFormData(null);
+	};
+
+	if (!fieldData) return <Spinner />;
 
 	return (
 		<Wrapper>
@@ -137,13 +144,7 @@ const Field = () => {
 						address={fieldData.address}
 					/>
 
-					<MenuBar
-						openMaps={openMaps}
-						toggleForm={() => {
-							toggleFormVisibility();
-							setFormData(null);
-						}}
-					/>
+					<MenuBar openMaps={openMaps} toggleForm={toggleForm} />
 
 					<Posts>
 						{isPostDataEmpty ? (
@@ -165,13 +166,11 @@ const Field = () => {
 					</Posts>
 
 					{isFormVisible && (
-						<PositionedForm>
-							<Form
-								toggleVisibility={toggleFormVisibility}
-								formData={formData}
-								fieldName={fieldData.name}
-							/>
-						</PositionedForm>
+						<PostForm
+							toggleVisibility={toggleFormVisibility}
+							formData={formData}
+							fieldName={fieldData.name}
+						/>
 					)}
 				</Content>
 			) : (
