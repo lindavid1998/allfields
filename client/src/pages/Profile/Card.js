@@ -17,16 +17,18 @@ const Card = ({ name, joinDate }) => {
 	const { userId } = useParams();
 	const [isFormVisible, setIsFormVisible] = useState(false);
 
-	const toggleVisibility = () => {
-		setIsFormVisible((prev) => !prev);
-	};
-
 	const showEdit = userId === auth.currentUser?.uid;
+
+	const toggleVisibility = () => {
+		if (showEdit) {
+			setIsFormVisible((prev) => !prev);
+		}
+	};
 
 	return (
 		<Div>
 			<Avatar
-				className={`md ${showEdit && 'show-edit'}`}
+				className={`md ${showEdit ? 'show-edit' : 'hide-pointer'}`}
 				userId={userId}
 				onClick={toggleVisibility}
 				showEdit={showEdit}
