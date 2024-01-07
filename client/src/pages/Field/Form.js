@@ -7,6 +7,7 @@ import { faX } from '@fortawesome/free-solid-svg-icons';
 import { db, auth, getUserId } from '../../firebase';
 import { ref, child, push, update } from 'firebase/database';
 import { capitalize } from '../../utils';
+import Occupancy from './Occupancy';
 
 const StyledForm = styled.form`
 	display: flex;
@@ -49,10 +50,6 @@ const Back = styled.div`
 	&:hover {
 		background-color: var(--light-btn-color);
 	}
-`;
-
-const Label = styled.label`
-	font-size: 1.05rem;
 `;
 
 const Conditions = styled.div`
@@ -127,7 +124,7 @@ const Form = ({ toggleVisibility, formData, fieldName }) => {
 			<h5>{fieldName}</h5>
 
 			<FormRow>
-				<Label htmlFor='date'>Date visited</Label>
+				<label htmlFor='date'>Date visited</label>
 				<input
 					type='date'
 					id='date'
@@ -139,7 +136,7 @@ const Form = ({ toggleVisibility, formData, fieldName }) => {
 			</FormRow>
 
 			<FormRow>
-				<Label htmlFor='body'>Comments</Label>
+				<label htmlFor='body'>Comments</label>
 				<Textarea
 					id='body'
 					name='body'
@@ -152,12 +149,14 @@ const Form = ({ toggleVisibility, formData, fieldName }) => {
 			</FormRow>
 
 			<FormRow>
-				<Label htmlFor='conditions'>Conditions</Label>
+				<label htmlFor='conditions'>Conditions</label>
 				<Conditions>
 					{Object.keys(conditions).map((key, index) => (
 						<Button
 							key={index}
-							className={`sm-btn unbold-btn ${conditions[key] ? '' : 'light-btn'}`}
+							className={`sm-btn unbold-btn ${
+								conditions[key] ? '' : 'light-btn'
+							}`}
 							text={capitalize(key)}
 							onClick={() =>
 								setConditions((prevConditions) => ({
@@ -169,6 +168,8 @@ const Form = ({ toggleVisibility, formData, fieldName }) => {
 					))}
 				</Conditions>
 			</FormRow>
+
+			<Occupancy></Occupancy>
 
 			<PositionedBtn>
 				<Button

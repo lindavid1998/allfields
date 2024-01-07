@@ -1,0 +1,16 @@
+.occupancy {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+.occupancy-input {
+  display: flex;
+  width: 100%;
+  justify-content: space-evenly;
+  margin-top: 5px;
+}
+
+.label {
+  margin-bottom: 5px;
+}
