@@ -159,6 +159,7 @@ const Field = () => {
 									visitDate={data.visitDate}
 									userId={data.userId}
 									conditions={data.conditions}
+									occupancy={data.occupancy}
 									editPost={() => handleEdit({ ...data, postId })}
 								/>
 							))

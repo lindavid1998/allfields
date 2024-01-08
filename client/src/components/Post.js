@@ -39,6 +39,7 @@ const Post = ({
 	userId,
 	postId,
 	conditions,
+	occupancy,
 	editPost,
 	showIcons = true,
 	header = 'name',
@@ -102,11 +103,22 @@ const Post = ({
 
 	return (
 		<Wrapper>
-			{isAuthorizedUser && showIcons && <PostIcons postId={postId} editPost={editPost} deletePost={deletePost} />}
+			{isAuthorizedUser && showIcons && (
+				<PostIcons
+					postId={postId}
+					editPost={editPost}
+					deletePost={deletePost}
+				/>
+			)}
 
-			<PostHeader header={header} fieldId={fieldId} userId={userId} field={field} name={name} postDate={postDate} />
-
-			{/* <p className='gray small'>{postDate}</p> */}
+			<PostHeader
+				header={header}
+				fieldId={fieldId}
+				userId={userId}
+				field={field}
+				name={name}
+				postDate={postDate}
+			/>
 
 			<Body>{body}</Body>
 
@@ -119,6 +131,12 @@ const Post = ({
 			{conditionsString && (
 				<p>
 					<strong>Conditions:</strong> {conditionsString}
+				</p>
+			)}
+
+			{occupancy && (
+				<p>
+					<strong>Occupancy:</strong> {capitalize(occupancy)}
 				</p>
 			)}
 		</Wrapper>

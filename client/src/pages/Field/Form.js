@@ -59,8 +59,8 @@ const Conditions = styled.div`
 `;
 
 const Form = ({ toggleVisibility, formData, fieldName }) => {
+	const [occupancy, setOccupancy] = useState(formData?.occupancy || null);
 	const [visitDate, setVisitDate] = useState(formData?.visitDate || null);
-
 	const [body, setBody] = useState(formData?.body || null);
 
 	const [conditions, setConditions] = useState(
@@ -79,9 +79,19 @@ const Form = ({ toggleVisibility, formData, fieldName }) => {
 
 	const params = useParams();
 
-	const writePost = (userId, visitDate, body, fieldId, conditions) => {
+	const writePost = (
+		userId,
+		visitDate,
+		body,
+		fieldId,
+		conditions,
+		occupancy
+	) => {
+		// write post to database
 		let postDate = new Date(); // get current date as post date
 		postDate = postDate.toISOString().split('T')[0];
+	
+		occupancy = occupancy === 'null' ? null : occupancy
 
 		const postData = {
 			postDate,
@@ -90,6 +100,7 @@ const Form = ({ toggleVisibility, formData, fieldName }) => {
 			fieldId,
 			userId,
 			conditions,
+			occupancy,
 		};
 
 		// use existing postId as key if editing post, otherwise generate new key
@@ -111,8 +122,12 @@ const Form = ({ toggleVisibility, formData, fieldName }) => {
 	const handleSubmit = () => {
 		let userId = getUserId(auth);
 		const fieldId = params.fieldId;
-		writePost(userId, visitDate, body, fieldId, conditions); // write to database
+		writePost(userId, visitDate, body, fieldId, conditions, occupancy); // write to database
 		toggleVisibility(); // hide form
+	};
+
+	const handleOccupancyChange = (e) => {
+		setOccupancy(e.target.value);
 	};
 
 	return (
@@ -169,7 +184,10 @@ const Form = ({ toggleVisibility, formData, fieldName }) => {
 				</Conditions>
 			</FormRow>
 
-			<Occupancy></Occupancy>
+			<Occupancy
+				checked={occupancy}
+				handleChange={handleOccupancyChange}
+			/>
 
 			<PositionedBtn>
 				<Button
