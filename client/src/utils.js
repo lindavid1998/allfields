@@ -18,7 +18,7 @@ export const useImagePathToURL = (path) => {
 			}
 		};
 		fetchURL();
-	}, []);
+	}, [path]);
 
 	return url;
 };

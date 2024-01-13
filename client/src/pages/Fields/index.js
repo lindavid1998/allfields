@@ -17,27 +17,53 @@ const Wrapper = styled.div`
 `;
 
 const Fields = () => {
-	const [data, setData] = useState(null);
+	const [allData, setAllData] = useState(null);
+	const [displayedData, setDisplayedData] = useState(null);
+	const [neighborhoods, setNeighborhoods] = useState(null);
 
 	useEffect(() => {
 		const getFieldsData = async () => {
 			try {
 				const fieldsRef = ref(db, 'fields');
 				const snapshot = await get(fieldsRef);
-				setData(snapshot.val());
+				const data = snapshot.val();
+				setDisplayedData(data);
+				setAllData(data);
+
+				let neighborhoods = data.map((field) => field.neighborhood);
+				neighborhoods = Array.from(new Set(neighborhoods));
+				setNeighborhoods(neighborhoods);
 			} catch (err) {
 				console.log(err);
 			}
 		};
+
 		getFieldsData();
 	}, []);
 
-	if (!data) return <Spinner />;
+	if (!allData) return <Spinner />;
+
+	const handleFilter = (neighborhoods) => {
+		const hasFilter = neighborhoods.length !== 0;
+
+		if (hasFilter) {
+			const result = allData.filter((field) =>
+				neighborhoods.includes(field.neighborhood)
+			);
+
+			setDisplayedData(result);
+		} else {
+			setDisplayedData(allData);
+		}
+	};
 
 	return (
 		<Wrapper>
-			<MenuBar />
-			{data.map((field, index) => (
+			<MenuBar applyFilter={handleFilter} neighborhoods={neighborhoods} />
+
+			{console.log(displayedData)}
+
+			{displayedData.map((field, index) => (
 				<Listing
 					key={index}
 					id={index}
