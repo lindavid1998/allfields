@@ -1,7 +1,7 @@
 import React, { useContext } from 'react';
 import styled from 'styled-components';
 import { useNavigate, useLocation } from 'react-router-dom';
-import { PathContext } from '../utils.js';
+import { PathContext } from '../utils/utils.js';
 import { auth, getUserId } from '../firebase.js';
 import { signOut } from 'firebase/auth';
 import { Link } from 'react-router-dom';

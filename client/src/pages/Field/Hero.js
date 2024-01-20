@@ -1,6 +1,6 @@
 import React from 'react'
 import styled from 'styled-components';
-import { useImagePathToURL } from '../../utils';
+import { useImagePathToURL } from '../../utils/utils';
 
 const Wrapper = styled.div`
   height: 300px;

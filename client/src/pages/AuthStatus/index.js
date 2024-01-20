@@ -4,7 +4,7 @@ import { auth } from '../../firebase.js';
 import backgroundImage from '../../assets/pexels-ivan-siarbolin-3787832.jpg';
 import { useNavigate } from 'react-router-dom';
 import { useContext } from 'react';
-import { PathContext } from '../../utils.js';
+import { PathContext } from '../../utils/utils.js';
 
 const Content = styled.div`
 	width: 100%;

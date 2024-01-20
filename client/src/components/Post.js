@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import { getUserFullName } from '../firebase';
 import { db, auth, getUserId } from '../firebase';
 import { ref, remove, get } from 'firebase/database';
-import { capitalize } from '../utils';
+import { capitalize } from '../utils/utils';
 import PostIcons from './PostIcons';
 import PostHeader from './PostHeader';
 

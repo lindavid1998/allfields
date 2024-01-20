@@ -2,7 +2,7 @@ import React, { useState, useContext } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import Button from '../../components/Button';
 import { auth, getUserId } from '../../firebase';
-import { PathContext } from '../../utils';
+import { PathContext } from '../../utils/utils';
 import Tab from '../../components/Tab';
 
 const MenuBar = ({ toggleForm, openMaps }) => {

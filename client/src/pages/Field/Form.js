@@ -6,7 +6,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faX } from '@fortawesome/free-solid-svg-icons';
 import { db, auth, getUserId } from '../../firebase';
 import { ref, child, push, update } from 'firebase/database';
-import { capitalize } from '../../utils';
+import { capitalize } from '../../utils/utils';
 import Occupancy from './Occupancy';
 
 const StyledForm = styled.form`
@@ -120,10 +120,15 @@ const Form = ({ toggleVisibility, formData, fieldName }) => {
 	};
 
 	const handleSubmit = () => {
-		let userId = getUserId(auth);
-		const fieldId = params.fieldId;
-		writePost(userId, visitDate, body, fieldId, conditions, occupancy); // write to database
-		toggleVisibility(); // hide form
+		const form = document.getElementById('post-form')
+		if (form.checkValidity()) {
+			let userId = getUserId(auth);
+			const fieldId = params.fieldId;
+			writePost(userId, visitDate, body, fieldId, conditions, occupancy); // write to database
+			toggleVisibility(); // hide form
+		} else {
+			alert('Comments cannot be empty!')
+		}
 	};
 
 	const handleOccupancyChange = (e) => {
@@ -131,7 +136,7 @@ const Form = ({ toggleVisibility, formData, fieldName }) => {
 	};
 
 	return (
-		<StyledForm>
+		<StyledForm id='post-form'>
 			<Back onClick={toggleVisibility}>
 				<FontAwesomeIcon icon={faX} />
 			</Back>
@@ -144,7 +149,6 @@ const Form = ({ toggleVisibility, formData, fieldName }) => {
 					type='date'
 					id='date'
 					name='date'
-					required
 					onChange={(e) => setVisitDate(e.target.value)}
 					value={visitDate || ''}
 				/>

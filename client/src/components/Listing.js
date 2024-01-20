@@ -4,11 +4,10 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faHeart as regularHeart } from '@fortawesome/free-regular-svg-icons';
 import { faHeart as solidHeart } from '@fortawesome/free-solid-svg-icons';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
-import { useImagePathToURL } from '../utils';
+import { useImagePathToURL, PathContext } from '../utils/utils.js';
 import Spinner from './Spinner';
 import { db, auth, getUserId } from '../firebase';
 import { ref, set, get, remove, onValue } from 'firebase/database';
-import { PathContext } from '../utils';
 
 const Wrapper = styled.div`
 	display: flex;

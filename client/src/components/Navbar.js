@@ -5,7 +5,7 @@ import Avatar from './Avatar.js';
 import Dropdown from './Dropdown.js';
 import { Link, useLocation } from 'react-router-dom';
 import { auth } from '../firebase.js';
-import { PathContext } from '../utils.js';
+import { PathContext } from '../utils/utils.js';
 
 const Wrapper = styled.nav`
 	display: flex;

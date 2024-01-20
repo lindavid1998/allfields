@@ -1,7 +1,9 @@
 import React from 'react';
 import styled from 'styled-components';
-import { SignInForm, SignUpForm } from '../../components/AuthForm';
-import { useImagePathToURL } from '../../utils';
+import { SignUpForm } from '../../components/SignUpForm';
+import { SignInForm } from '../../components/SignInForm';
+
+import { useImagePathToURL } from '../../utils/utils';
 
 const Content = styled.div`
 	width: 100%;
