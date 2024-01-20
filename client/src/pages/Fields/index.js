@@ -27,10 +27,12 @@ const Fields = () => {
 				const fieldsRef = ref(db, 'fields');
 				const snapshot = await get(fieldsRef);
 				const data = snapshot.val();
+				
 				setDisplayedData(data);
 				setAllData(data);
 
-				let neighborhoods = data.map((field) => field.neighborhood);
+				const fields = Object.values(data);
+				let neighborhoods = fields.map((field) => field.neighborhood);
 				neighborhoods = Array.from(new Set(neighborhoods));
 				setNeighborhoods(neighborhoods);
 			} catch (err) {
@@ -47,10 +49,10 @@ const Fields = () => {
 		const hasFilter = neighborhoods.length !== 0;
 
 		if (hasFilter) {
-			const result = allData.filter((field) =>
-				neighborhoods.includes(field.neighborhood)
+			const filtered = Object.entries(allData).filter(([key, data]) =>
+				neighborhoods.includes(data.neighborhood)
 			);
-
+			const result = Object.fromEntries(filtered);
 			setDisplayedData(result);
 		} else {
 			setDisplayedData(allData);
@@ -61,16 +63,14 @@ const Fields = () => {
 		<Wrapper>
 			<MenuBar applyFilter={handleFilter} neighborhoods={neighborhoods} />
 
-			{console.log(displayedData)}
-
-			{displayedData.map((field, index) => (
+			{Object.keys(displayedData).map((fieldId, index) => (
 				<Listing
 					key={index}
-					id={index}
-					name={field.name}
-					neighborhood={field.neighborhood}
-					address={field.address}
-					defaultImgPath={field.defaultImg}
+					id={fieldId}
+					name={displayedData[fieldId].name}
+					neighborhood={displayedData[fieldId].neighborhood}
+					address={displayedData[fieldId].address}
+					defaultImgPath={displayedData[fieldId].defaultImg}
 				/>
 			))}
 		</Wrapper>

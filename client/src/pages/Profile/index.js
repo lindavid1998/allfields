@@ -10,9 +10,10 @@ const Wrapper = styled.div`
 	display: flex;
 	justify-content: center;
 	width: 100%;
-	height: 100%;
+	min-height: 100%;
 	background-color: #efefec;
-	padding-top: 25px;
+	padding: 25px 0;
+	flex-grow: 1;
 `;
 
 const Div = styled.div`
