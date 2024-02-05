@@ -8,7 +8,7 @@ import AuthStatus from './pages/AuthStatus';
 import Field from './pages/Field';
 import { Route, Routes } from 'react-router-dom';
 import styled from 'styled-components';
-import { PathContext } from './utils';
+import { PathContext } from './utils/utils';
 
 const Wrapper = styled.div`
 	display: flex;

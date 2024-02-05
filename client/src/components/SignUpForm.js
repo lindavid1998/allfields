@@ -34,7 +34,6 @@ export const SignUpForm = () => {
 
 	const onSubmit = methods.handleSubmit((data) => {
 		signUserUp(data.firstName, data.lastName, data.email, data.password);
-		methods.reset(); // reset the form
 	});
 
 	const signUserUp = async (firstName, lastName, email, password) => {
