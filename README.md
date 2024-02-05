@@ -6,12 +6,12 @@ AllFields is a platform for soccer enthusiasts! Users can look up field conditio
 
 ## Features
 - Users can
--   view list of soccer fields in San Diego (more to be added)
--   narrow fields with search
--   filter fields by neighborhood
--   post, edit, and delete reviews
--   reviews from other users
--   favorite and unfavorite fields
+  - view list of soccer fields in San Diego (more to be added)
+  - narrow fields with search
+  - filter fields by neighborhood
+  - post, edit, and delete reviews
+  - see reviews from other users
+  - favorite and unfavorite fields
 - User profiles show join date, recent posts, and favorites
 - Each field links to Google Maps for directions
 - Customizable avatars
