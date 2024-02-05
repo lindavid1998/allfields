@@ -20,7 +20,7 @@ const Input = styled.input`
 	height: 100%;
 	padding: 0 16px;
 	background: transparent;
-  color: black;
+	color: black;
 	border: none;
 `;
 
@@ -30,13 +30,17 @@ const Icon = styled.div`
 	color: var(--gray-text-color);
 `;
 
-const SearchBar = () => {
+const SearchBar = ({handleSearch}) => {
 	return (
 		<Wrapper>
 			<Icon>
 				<FontAwesomeIcon icon={faMagnifyingGlass} />
 			</Icon>
-			<Input type='text' placeholder='Enter a city or park name' />
+			<Input
+				onChange={(e) => handleSearch(e.target.value)}
+				type='text'
+				placeholder='Enter a city or park name'
+			/>
 		</Wrapper>
 	);
 };

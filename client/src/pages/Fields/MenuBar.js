@@ -57,10 +57,10 @@ const Buttons = ({ applyFilter, neighborhoods }) => {
 	);
 };
 
-const MenuBar = ({ applyFilter, neighborhoods }) => {
+const MenuBar = ({ handleSearch, applyFilter, neighborhoods }) => {
 	return (
 		<Wrapper>
-			<Searchbar />
+			<Searchbar handleSearch={handleSearch} />
 
 			<div>
 				Or search by <strong>neighborhood:</strong>

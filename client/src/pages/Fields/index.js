@@ -27,7 +27,7 @@ const Fields = () => {
 				const fieldsRef = ref(db, 'fields');
 				const snapshot = await get(fieldsRef);
 				const data = snapshot.val();
-				
+
 				setDisplayedData(data);
 				setAllData(data);
 
@@ -59,9 +59,31 @@ const Fields = () => {
 		}
 	};
 
+	const handleSearch = (searchText) => {
+		const fields = Object.entries(allData);
+
+		const filtered = fields.filter((field) => {
+			const [fieldId, data] = field
+			return isSubstring(data.name, searchText);
+		});
+
+		const result = Object.fromEntries(filtered);
+		setDisplayedData(result);
+	};
+
+	const isSubstring = (text, substr) => {
+		text = text.toLowerCase();
+		substr = substr.toLowerCase();
+		return text.includes(substr);
+	};
+
 	return (
 		<Wrapper>
-			<MenuBar applyFilter={handleFilter} neighborhoods={neighborhoods} />
+			<MenuBar
+				handleSearch={handleSearch}
+				applyFilter={handleFilter}
+				neighborhoods={neighborhoods}
+			/>
 
 			{Object.keys(displayedData).map((fieldId, index) => (
 				<Listing
