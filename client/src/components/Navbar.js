@@ -55,7 +55,14 @@ const Navbar = () => {
 	}
 
 	const handleLogin = () => {
-		setRedirectPath(location.pathname)
+		// save redirect path if user not on login or auth status pages
+	
+		const path = location.pathname
+		const paths = ['/sign-in', '/sign-up', '/auth-status']
+
+		if (!paths.includes(path)) {
+			setRedirectPath(path);
+		}
 	}
 
 	return (
