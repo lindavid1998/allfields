@@ -5,6 +5,7 @@ import MenuBar from './MenuBar';
 import { db } from '../../firebase';
 import { ref, get } from 'firebase/database';
 import Spinner from '../../components/Spinner';
+import Map from './Map'
 
 const Wrapper = styled.div`
 	display: flex;
@@ -15,6 +16,24 @@ const Wrapper = styled.div`
 	padding: 10px 16px;
 	max-width: 1085px;
 `;
+
+const Container = styled.div`
+	display: flex;
+	flex-direction: column-reverse;
+	gap: 25px;
+	width: 100%;
+
+	@media (min-width: 1100px) {
+		flex-direction: row;
+		gap: 0;
+	}
+`;
+
+const Listings = styled.div`
+	display: flex;
+	flex-direction: column;
+	gap: 25px;
+`
 
 const Fields = () => {
 	const [allData, setAllData] = useState(null);
@@ -63,7 +82,7 @@ const Fields = () => {
 		const fields = Object.entries(allData);
 
 		const filtered = fields.filter((field) => {
-			const [fieldId, data] = field
+			const [fieldId, data] = field;
 			return isSubstring(data.name, searchText);
 		});
 
@@ -85,16 +104,22 @@ const Fields = () => {
 				neighborhoods={neighborhoods}
 			/>
 
-			{Object.keys(displayedData).map((fieldId, index) => (
-				<Listing
-					key={index}
-					id={fieldId}
-					name={displayedData[fieldId].name}
-					neighborhood={displayedData[fieldId].neighborhood}
-					address={displayedData[fieldId].address}
-					defaultImgPath={displayedData[fieldId].defaultImg}
-				/>
-			))}
+			<Container>
+				<Listings>
+					{Object.keys(displayedData).map((fieldId, index) => (
+						<Listing
+							key={index}
+							id={fieldId}
+							name={`${index + 1} - ${displayedData[fieldId].name}`}
+							neighborhood={displayedData[fieldId].neighborhood}
+							address={displayedData[fieldId].address}
+							defaultImgPath={displayedData[fieldId].defaultImg}
+						/>
+					))}
+				</Listings>
+
+				<Map markers={Object.values(displayedData)} />
+			</Container>
 		</Wrapper>
 	);
 };

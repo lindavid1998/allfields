@@ -19,7 +19,7 @@ const Wrapper = styled.div`
 `;
 
 function App() {
-	const [redirectPath, setRedirectPath] = useState('/');	
+	const [redirectPath, setRedirectPath] = useState('/');
 
 	return (
 		<Wrapper>
