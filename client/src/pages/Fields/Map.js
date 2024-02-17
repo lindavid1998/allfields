@@ -3,8 +3,8 @@ import { GoogleMap, useJsApiLoader, Marker } from '@react-google-maps/api';
 
 const containerStyle = {
 	width: '100%',
-  height: '400px',
-  borderRadius: '20px',
+	height: '400px',
+	borderRadius: '20px',
 };
 
 const center = {
@@ -59,6 +59,10 @@ const Map = ({ markers }) => {
 			});
 
 			map.fitBounds(bounds);
+
+			if (markers.length === 1) {
+				map.setOptions({ maxZoom: 13 }); 
+			}
 		}
 	}, [map, markers]);
 
@@ -69,6 +73,7 @@ const Map = ({ markers }) => {
 			zoom={10}
 			onLoad={onLoad}
 			onUnmount={onUnmount}
+			maxZoom={10}
 		>
 			<Markers markers={markers}></Markers>
 		</GoogleMap>
