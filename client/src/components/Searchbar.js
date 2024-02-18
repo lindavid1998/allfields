@@ -30,7 +30,7 @@ const Icon = styled.div`
 	color: var(--gray-text-color);
 `;
 
-const SearchBar = ({handleSearch}) => {
+const SearchBar = ({ query, handleSearch}) => {
 	return (
 		<Wrapper>
 			<Icon>
@@ -39,6 +39,7 @@ const SearchBar = ({handleSearch}) => {
 			<Input
 				onChange={(e) => handleSearch(e.target.value)}
 				type='text'
+				value={query}
 				placeholder='Enter a city or park name'
 			/>
 		</Wrapper>

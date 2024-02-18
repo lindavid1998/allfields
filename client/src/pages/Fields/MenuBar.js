@@ -15,13 +15,13 @@ const Wrapper = styled.div`
 	padding: 10px 0;
 `;
 
-const Buttons = ({ applyFilter, neighborhoods }) => {
+const Buttons = ({ resetSearch, handleFilter, neighborhoods }) => {
 	const [filters, setFilters] = useState([]);
 
 	const handleClick = (e) => {
 		// check if filter is already active
 		const index = filters.indexOf(e.target.textContent);
-
+		
 		// if active, remove from filters. else, add
 		if (index != -1) {
 			filters.splice(index, 1);
@@ -30,12 +30,7 @@ const Buttons = ({ applyFilter, neighborhoods }) => {
 		}
 
 		setFilters(filters);
-		applyFilter(filters);
-	};
-
-	const handleReset = () => {
-		setFilters([]);
-		applyFilter([]);
+		handleFilter(filters);
 	};
 
 	return (
@@ -51,22 +46,25 @@ const Buttons = ({ applyFilter, neighborhoods }) => {
 			<Button
 				className='blue-btn sm-btn'
 				text='Reset filter'
-				onClick={handleReset}
+				onClick={() => {
+					resetSearch()
+					setFilters([])
+				}}
 			/>
 		</>
 	);
 };
 
-const MenuBar = ({ handleSearch, applyFilter, neighborhoods }) => {
+const MenuBar = ({ handleSearch, handleFilter, neighborhoods, resetSearch, query }) => {
 	return (
 		<Wrapper>
-			<Searchbar handleSearch={handleSearch} />
+			<Searchbar query={query} handleSearch={handleSearch} />
 
 			<div>
 				Or search by <strong>neighborhood:</strong>
 			</div>
 
-			<Buttons applyFilter={applyFilter} neighborhoods={neighborhoods} />
+			<Buttons resetSearch={resetSearch} handleFilter={handleFilter} neighborhoods={neighborhoods} />
 		</Wrapper>
 	);
 };

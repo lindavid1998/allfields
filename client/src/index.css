@@ -137,3 +137,7 @@ p.gray {
 	justify-content: center;
 	z-index: 999;
 }
+
+#google-map button {
+	border-radius: 0;
+}

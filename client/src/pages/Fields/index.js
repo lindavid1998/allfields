@@ -5,7 +5,7 @@ import MenuBar from './MenuBar';
 import { db } from '../../firebase';
 import { ref, get } from 'firebase/database';
 import Spinner from '../../components/Spinner';
-import Map from './Map'
+import Map from './Map';
 
 const Wrapper = styled.div`
 	display: flex;
@@ -33,12 +33,14 @@ const Listings = styled.div`
 	display: flex;
 	flex-direction: column;
 	gap: 25px;
-`
+`;
 
 const Fields = () => {
 	const [allData, setAllData] = useState(null);
 	const [displayedData, setDisplayedData] = useState(null);
+	const [filteredData, setFilteredData] = useState(null);
 	const [neighborhoods, setNeighborhoods] = useState(null);
+	const [query, setQuery] = useState('');
 
 	useEffect(() => {
 		const getFieldsData = async () => {
@@ -48,6 +50,7 @@ const Fields = () => {
 				const data = snapshot.val();
 
 				setDisplayedData(data);
+				setFilteredData(data);
 				setAllData(data);
 
 				const fields = Object.values(data);
@@ -72,6 +75,7 @@ const Fields = () => {
 				neighborhoods.includes(data.neighborhood)
 			);
 			const result = Object.fromEntries(filtered);
+			setFilteredData(result);
 			setDisplayedData(result);
 		} else {
 			setDisplayedData(allData);
@@ -79,15 +83,22 @@ const Fields = () => {
 	};
 
 	const handleSearch = (searchText) => {
-		const fields = Object.entries(allData);
+		setQuery(searchText);
 
-		const filtered = fields.filter((field) => {
+		const fields = Object.entries(filteredData);
+
+		const searchResult = fields.filter((field) => {
 			const [fieldId, data] = field;
 			return isSubstring(data.name, searchText);
 		});
 
-		const result = Object.fromEntries(filtered);
+		const result = Object.fromEntries(searchResult);
 		setDisplayedData(result);
+	};
+
+	const resetSearch = () => {
+		setDisplayedData(allData);
+		setQuery('');
 	};
 
 	const isSubstring = (text, substr) => {
@@ -96,27 +107,37 @@ const Fields = () => {
 		return text.includes(substr);
 	};
 
+	const isSearchResultEmpty = () => {
+		return Object.keys(displayedData).length === 0;
+	};
+
 	return (
 		<Wrapper>
 			<MenuBar
 				handleSearch={handleSearch}
-				applyFilter={handleFilter}
+				handleFilter={handleFilter}
 				neighborhoods={neighborhoods}
+				resetSearch={resetSearch}
+				query={query}
 			/>
 
 			<Container>
-				<Listings>
-					{Object.keys(displayedData).map((fieldId, index) => (
-						<Listing
-							key={index}
-							id={fieldId}
-							name={`${index + 1} - ${displayedData[fieldId].name}`}
-							neighborhood={displayedData[fieldId].neighborhood}
-							address={displayedData[fieldId].address}
-							defaultImgPath={displayedData[fieldId].defaultImg}
-						/>
-					))}
-				</Listings>
+				{isSearchResultEmpty() ? (
+					<h4>Whoops... no results!</h4>
+				) : (
+					<Listings>
+						{Object.keys(displayedData).map((fieldId, index) => (
+							<Listing
+								key={index}
+								id={fieldId}
+								name={`${index + 1} - ${displayedData[fieldId].name}`}
+								neighborhood={displayedData[fieldId].neighborhood}
+								address={displayedData[fieldId].address}
+								defaultImgPath={displayedData[fieldId].defaultImg}
+							/>
+						))}
+					</Listings>
+				)}
 
 				<Map markers={Object.values(displayedData)} />
 			</Container>

@@ -8,8 +8,8 @@ const containerStyle = {
 };
 
 const center = {
-	lat: 32.91570072619303,
-	lng: -117.13977740696505,
+	lat: 25.42112306116134,
+	lng: 51.49081941534451,
 };
 
 const API_KEY = process.env.REACT_APP_API_KEY;
@@ -49,6 +49,11 @@ const Map = ({ markers }) => {
 
 	useEffect(() => {
 		if (map) {
+			if (markers.length === 0) {
+				map.setOptions({ center: center, zoom: 15 })
+				return
+			}
+
 			const bounds = new window.google.maps.LatLngBounds();
 
 			markers.forEach((marker) => {
@@ -61,7 +66,7 @@ const Map = ({ markers }) => {
 			map.fitBounds(bounds);
 
 			if (markers.length === 1) {
-				map.setOptions({ maxZoom: 13 }); 
+				map.setOptions({ maxZoom: 13 });
 			}
 		}
 	}, [map, markers]);
@@ -74,6 +79,7 @@ const Map = ({ markers }) => {
 			onLoad={onLoad}
 			onUnmount={onUnmount}
 			maxZoom={10}
+			id='google-map'
 		>
 			<Markers markers={markers}></Markers>
 		</GoogleMap>
