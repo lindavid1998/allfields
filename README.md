@@ -6,12 +6,13 @@ AllFields is a platform for soccer enthusiasts! Users can look up field conditio
 ## Features
 - Users can
   - view list of soccer fields in San Diego (more to be added)
-  - narrow fields with search
+  - search fields
   - filter fields by neighborhood
   - view fields on a map (like Yelp)
   - post, edit, and delete reviews
-  - see reviews from other users
   - favorite and unfavorite fields
+  - see reviews from other users
+  - see user profiles
 - User profiles show join date, recent posts, and favorites
 - Each field links to Google Maps for directions
 - Customizable avatars
@@ -19,6 +20,14 @@ AllFields is a platform for soccer enthusiasts! Users can look up field conditio
 ## Demo
 
 https://allfields-570a5.web.app/
+
+### Filter and search with map view
+
+![map-demo](https://github.com/lindavid1998/allfields/assets/22776267/0f033520-c521-4c7f-a548-225806078dff)
+
+### Post reviews, report field conditions, and save your favorite fields
+
+![demo](https://github.com/lindavid1998/allfields/assets/22776267/9f10bc83-6594-465e-a5cc-6e34b0c4b549)
 
 ## 🛠 Tech Stack
 
