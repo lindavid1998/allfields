@@ -3,12 +3,12 @@
 
 AllFields is a platform for soccer enthusiasts! Users can look up field conditions, create accounts, and share their own reviews, like Yelp and AllTrails. The goal is to help soccer players find the best fields to play on before they head out to the field. 
 
-
 ## Features
 - Users can
   - view list of soccer fields in San Diego (more to be added)
   - narrow fields with search
   - filter fields by neighborhood
+  - view fields on a map (like Yelp)
   - post, edit, and delete reviews
   - see reviews from other users
   - favorite and unfavorite fields
@@ -22,14 +22,12 @@ https://allfields-570a5.web.app/
 
 ## 🛠 Tech Stack
 
-**Client:** React, React Router, HTML, JS, CSS, Styled Components
+**Client:** React, React Router, HTML, JS, CSS, Styled Components, Google Maps API
 
 **Server:** Firebase (Authentication, Storage, Realtime Database)
 
 This project was made with Firebase. It's a small scale passion project where the main priority is learning to build and ship out new features. Saving user data (posts) and field data (name, address, etc.) seemed suitable for the JSON-like data schema as well, thus making Firebase a good option.
 
-
 ## Acknowledgements
 
-This project is based on AllTrails.
-
+This project is based on AllTrails and Yelp.
