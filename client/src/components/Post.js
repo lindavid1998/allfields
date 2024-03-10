@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import { getUserFullName } from '../firebase';
 import { db, auth, getUserId, storage } from '../firebase';
 import { ref, remove, get } from 'firebase/database';
-import { getDownloadURL, ref as sRef, listAll } from 'firebase/storage';
+import { getDownloadURL, ref as sRef, listAll, deleteObject } from 'firebase/storage';
 import { capitalize } from '../utils/utils';
 import PostIcons from './PostIcons';
 import PostHeader from './PostHeader';
@@ -146,7 +146,17 @@ const Post = ({
 	const deletePost = async (postId) => {
 		try {
 			const confirmed = window.confirm('Are you sure you want to delete?');
-			if (confirmed) await remove(ref(db, 'posts/' + postId));
+			if (confirmed) {
+				await remove(ref(db, `posts/${postId}`)); 
+
+				// Delete any images uploaded with post
+				const storageRef = sRef(storage, `images/user-images/${postId}`)
+				const result = await listAll(storageRef);
+				const promises = result.items.map(async (item) => {
+					await deleteObject(item)
+				})
+				await Promise.all(promises)
+			}
 		} catch (err) {
 			console.log(err);
 		}
