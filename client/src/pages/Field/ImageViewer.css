@@ -1,0 +1,70 @@
+.overlay {
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100vw;
+	height: 100vh;
+	background-color: rgba(0, 0, 0, 0.8);
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	z-index: 999;
+}
+
+.image-viewer {
+  background-color: #000000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  height: 90%;
+  width: 70%;
+  padding: 0 30px;
+  border-radius: 10px;
+}
+
+.icon {
+  color: #d2d2d2;
+  font-size: 24px;
+  cursor: pointer;
+}
+
+.icon:hover {
+  color: white;
+}
+
+.icon.close {
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  margin: 8px;
+}
+
+.icon.disabled {
+  color: #595959; 
+  cursor: pointer;
+}
+
+.viewer {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  height: 100%;
+  width: 100%;
+  overflow: hidden;
+}
+
+.image-viewer img {
+  width: 100%;
+  height: auto;
+}
+
+.image-container {
+  flex-grow: 1;
+}
+
+.count {
+  position: absolute;
+  color: white;
+  top: 101%;
+}

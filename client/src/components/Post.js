@@ -7,6 +7,7 @@ import { getDownloadURL, ref as sRef, listAll, deleteObject } from 'firebase/sto
 import { capitalize } from '../utils/utils';
 import PostIcons from './PostIcons';
 import PostHeader from './PostHeader';
+import ImageViewer from '../pages/Field/ImageViewer';
 
 const Wrapper = styled.div`
 	display: flex;
@@ -52,11 +53,11 @@ const Image = styled.img`
 	border-radius: 5px;
 `
 
-const Images = ({ urls }) => {
+const Images = ({ urls, toggleView }) => {
 	return (
 			<ImagesContainer>
 					{urls.map((url, index) => (
-							<ImageDiv key={index}>
+							<ImageDiv key={index} onClick={toggleView}>
 								<Image src={url} />
 							</ImageDiv>
 					))}
@@ -83,6 +84,7 @@ const Post = ({
 	const [field, setField] = useState('');
 	const [isAuthorizedUser, setIsAuthorizedUser] = useState(false);
 	const [imageUrls, setImageUrls] = useState([])
+	const [showImageViewer, setShowImageViewer] = useState(false)
 
 	useEffect(() => {
 		const fetchName = async () => {
@@ -171,6 +173,10 @@ const Post = ({
 
 		return arr.join(', '); // join array by comma, capitalizing each word
 	};
+
+	const toggleViewer = () => {
+		setShowImageViewer(prevState => !prevState);
+	}
 	
 	const conditionsString = convertConditionsToString(conditions)
 
@@ -213,7 +219,9 @@ const Post = ({
 				</p>
 			)}
 			
-			{imagesAdded && <Images urls={imageUrls}></Images>}
+			{imagesAdded && <Images urls={imageUrls} toggleView={toggleViewer}></Images>}
+
+			{showImageViewer && <ImageViewer urls={imageUrls} toggleView={toggleViewer}></ImageViewer>}
 		</Wrapper>
 	);
 };
