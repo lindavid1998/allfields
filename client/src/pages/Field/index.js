@@ -160,6 +160,7 @@ const Field = () => {
 									userId={data.userId}
 									conditions={data.conditions}
 									occupancy={data.occupancy}
+									imagesAdded={data.imagesAdded}
 									editPost={() => handleEdit({ ...data, postId })}
 								/>
 							))

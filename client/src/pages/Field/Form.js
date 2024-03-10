@@ -4,9 +4,10 @@ import styled from 'styled-components';
 import Button from '../../components/Button';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faX } from '@fortawesome/free-solid-svg-icons';
-import { db, auth, getUserId } from '../../firebase';
+import { db, auth, getUserId, storage } from '../../firebase';
 import { ref, child, push, update } from 'firebase/database';
 import { capitalize } from '../../utils/utils';
+import { ref as sRef, uploadBytes } from 'firebase/storage';
 import Occupancy from './Occupancy';
 
 const StyledForm = styled.form`
@@ -62,6 +63,7 @@ const Form = ({ toggleVisibility, formData, fieldName }) => {
 	const [occupancy, setOccupancy] = useState(formData?.occupancy || null);
 	const [visitDate, setVisitDate] = useState(formData?.visitDate || null);
 	const [body, setBody] = useState(formData?.body || null);
+	const [areImagesAdded, setAreImagesAdded] = useState(false);
 
 	const [conditions, setConditions] = useState(
 		formData?.conditions || {
@@ -106,6 +108,11 @@ const Form = ({ toggleVisibility, formData, fieldName }) => {
 		// use existing postId as key if editing post, otherwise generate new key
 		const key = formData ? formData.postId : push(child(ref(db), 'posts')).key;
 
+		if (areImagesAdded) {
+			uploadImage(key)
+			postData['imagesAdded'] = true
+		}
+
 		updatePostDatabase(postData, key);
 	};
 
@@ -121,6 +128,7 @@ const Form = ({ toggleVisibility, formData, fieldName }) => {
 
 	const handleSubmit = () => {
 		const form = document.getElementById('post-form')
+
 		if (form.checkValidity()) {
 			let userId = getUserId(auth);
 			const fieldId = params.fieldId;
@@ -133,6 +141,41 @@ const Form = ({ toggleVisibility, formData, fieldName }) => {
 
 	const handleOccupancyChange = (e) => {
 		setOccupancy(e.target.value);
+	};
+
+	const uploadImage = async (key) => {
+		try {
+			// select the form 
+			const form = document.getElementById('post-form')
+
+			// select the file 
+			const formData = new FormData(form);
+			const files = formData.getAll('user-images');
+
+			if (files.length > 0) {
+				// upload to firebase storage
+				// const storageRef = sRef(storage, `images/user-images/${key}`);
+				for (const file of files) {
+					const storageRef = sRef(storage, `images/user-images/${key}/${file.name}`);
+					await uploadBytes(storageRef, file);
+				}
+				
+				// reload page
+				window.location.reload(false);
+			} else {
+				console.log('no image to upload')
+			}
+		} catch (err) {
+			console.log(err);
+		}
+  };
+
+	const handleImageChange = (event) => {
+		if (event.target.value.length > 0) {
+			setAreImagesAdded(true);
+		} else {
+			setAreImagesAdded(false);
+		}
 	};
 
 	return (
@@ -188,6 +231,18 @@ const Form = ({ toggleVisibility, formData, fieldName }) => {
 				</Conditions>
 			</FormRow>
 
+			<FormRow>
+				<label htmlFor='user-images'>Add images</label>
+				<input
+					type='file'
+					id='user-images'
+					name='user-images'
+					accept='image/png, image/jpeg'
+					onChange={handleImageChange}
+					multiple
+				/>
+			</FormRow>
+
 			<Occupancy
 				checked={occupancy}
 				handleChange={handleOccupancyChange}
@@ -197,7 +252,7 @@ const Form = ({ toggleVisibility, formData, fieldName }) => {
 				<Button
 					className='sm-btn'
 					text='Post'
-					type='submit'
+					type='button'
 					onClick={handleSubmit}
 				/>
 			</PositionedBtn>

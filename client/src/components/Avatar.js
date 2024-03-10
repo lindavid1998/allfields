@@ -9,11 +9,11 @@ const Avatar = ({ onClick, className, userId, showEdit }) => {
 	useEffect(() => {
 		const fetchImageURL = async () => {
 			try {
-				const pathRef = ref(storage, `images/avatars/${userId}.png`);
+				const pathRef = ref(storage, `images/avatars/${userId}`);
 				const url = await getDownloadURL(pathRef);
 				setUrl(url);
 			} catch (error) {
-				// Handle the case where the file is not found
+				// Use default avatar if file is not found
 				if (error.code === 'storage/object-not-found') {
 					const defaultPathRef = ref(storage, 'images/avatars/default.png');
 					setUrl(await getDownloadURL(defaultPathRef));

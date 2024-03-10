@@ -63,7 +63,7 @@ const AvatarForm = ({ toggleVisibility }) => {
 			const formData = new FormData(form);
 			const file = formData.get('avatar');
 			const uid = getUserId(auth);
-			const storageRef = sRef(storage, `images/avatars/${uid}.png`);
+			const storageRef = sRef(storage, `images/avatars/${uid}`);
 			await uploadBytes(storageRef, file);
       toggleVisibility();
       

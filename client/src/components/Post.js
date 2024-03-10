@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { getUserFullName } from '../firebase';
-import { db, auth, getUserId } from '../firebase';
+import { db, auth, getUserId, storage } from '../firebase';
 import { ref, remove, get } from 'firebase/database';
+import { getDownloadURL, ref as sRef, listAll } from 'firebase/storage';
 import { capitalize } from '../utils/utils';
 import PostIcons from './PostIcons';
 import PostHeader from './PostHeader';
@@ -32,6 +33,38 @@ const Body = styled.p`
 	}
 `;
 
+const ImageDiv = styled.div`
+	height: 132px;
+	width: 174px;
+`
+
+const ImagesContainer = styled.div`
+	display: flex;
+	gap: 10px;
+	margin-top: 10px;
+`
+
+const Image = styled.img`
+	width: 100%;
+	height: 100%;
+	object-fit: cover; 
+	vertical-align: middle;
+	border-radius: 5px;
+`
+
+const Images = ({ urls }) => {
+	return (
+			<ImagesContainer>
+					{urls.map((url, index) => (
+							<ImageDiv key={index}>
+								<Image src={url} />
+							</ImageDiv>
+					))}
+			</ImagesContainer>
+	);
+};
+
+
 const Post = ({
 	body,
 	postDate,
@@ -41,13 +74,15 @@ const Post = ({
 	conditions,
 	occupancy,
 	editPost,
+	imagesAdded,
 	showIcons = true,
 	header = 'name',
 	fieldId,
 }) => {
-	let [name, setName] = useState('');
-	let [field, setField] = useState('');
-	let [isAuthorizedUser, setIsAuthorizedUser] = useState(false);
+	const [name, setName] = useState('');
+	const [field, setField] = useState('');
+	const [isAuthorizedUser, setIsAuthorizedUser] = useState(false);
+	const [imageUrls, setImageUrls] = useState([])
 
 	useEffect(() => {
 		const fetchName = async () => {
@@ -70,15 +105,43 @@ const Post = ({
 			}
 		};
 
+		const fetchImages = async () => {
+			const ref = sRef(storage, `images/user-images/${postId}`);
+			let urls = [];
+	
+			try {
+					// get all image references under parent folder
+					// references can be accessed using result.items
+					const result = await listAll(ref);
+
+					// get an array of promises 
+					// each promise fetches the url of the image
+					const promises = result.items.map(async (itemRef) => {
+							const url = await getDownloadURL(itemRef); //  get image url
+							urls.push(url);  // add to urls array
+					});
+
+					// wait for all promises to resolve (all urls fetched)
+					await Promise.all(promises);
+	
+					setImageUrls(urls);
+			} catch (error) {
+					console.log(error);
+			}
+		};
+	
+
 		if (header === 'name') {
 			fetchName();
 		} else {
 			fetchFieldName();
 		}
 
+		imagesAdded && fetchImages()
+	
 		let currentUserId = getUserId(auth);
 		setIsAuthorizedUser(currentUserId === userId);
-	}, [header, userId, fieldId]);
+	}, [header, userId, fieldId, postId, imagesAdded]);
 
 	const deletePost = async (postId) => {
 		try {
@@ -139,6 +202,8 @@ const Post = ({
 					<strong>Occupancy:</strong> {capitalize(occupancy)}
 				</p>
 			)}
+			
+			{imagesAdded && <Images urls={imageUrls}></Images>}
 		</Wrapper>
 	);
 };
