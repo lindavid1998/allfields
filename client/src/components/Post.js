@@ -3,11 +3,12 @@ import styled from 'styled-components';
 import { getUserFullName } from '../firebase';
 import { db, auth, getUserId, storage } from '../firebase';
 import { ref, remove, get } from 'firebase/database';
-import { getDownloadURL, ref as sRef, listAll, deleteObject } from 'firebase/storage';
+import { getDownloadURL, ref as sRef, listAll, deleteObject, refFromURL } from 'firebase/storage';
 import { capitalize } from '../utils/utils';
 import PostIcons from './PostIcons';
 import PostHeader from './PostHeader';
 import ImageViewer from '../pages/Field/ImageViewer';
+import './Post.css'
 
 const Wrapper = styled.div`
 	display: flex;
@@ -16,6 +17,7 @@ const Wrapper = styled.div`
 	padding: 20px 0;
 	position: relative;
 	color: var(--main-text-color);
+	height: fit-content;
 	&:first-child {
 		padding-top: 5px;
 	}
@@ -43,6 +45,7 @@ const ImagesContainer = styled.div`
 	display: flex;
 	gap: 10px;
 	margin-top: 10px;
+	width: fit-content;
 `
 
 const Image = styled.img`
@@ -53,12 +56,18 @@ const Image = styled.img`
 	border-radius: 5px;
 `
 
-const Images = ({ urls, toggleView }) => {
+const Images = ({ urls, toggleView, showDelete, deleteImg }) => {
 	return (
 			<ImagesContainer>
 					{urls.map((url, index) => (
-							<ImageDiv key={index} onClick={toggleView}>
+							<ImageDiv className={showDelete ? 'img-container show-delete' : 'img-container'} key={index} onClick={toggleView}>
 								<Image src={url} />
+								
+								{showDelete && (
+									<div className='delete-photo'>
+										<p className='small' onClick={(e) => { e.stopPropagation(); deleteImg(url); }}>Remove</p>
+									</div>
+								)}
 							</ImageDiv>
 					))}
 			</ImagesContainer>
@@ -144,6 +153,7 @@ const Post = ({
 	
 		let currentUserId = getUserId(auth);
 		setIsAuthorizedUser(currentUserId === userId);
+		
 	}, [header, userId, fieldId, postId]);
 
 	const deletePost = async (postId) => {
@@ -164,6 +174,16 @@ const Post = ({
 			console.log(err);
 		}
 	};
+
+	const deleteImage = async (url) => {
+		// remove image from view
+    const updatedUrls = imageUrls.filter((imageUrl) => imageUrl !== url);
+    setImageUrls(updatedUrls);
+
+		// remove from fb storage
+		const ref = sRef(storage, url)
+		await deleteObject(ref)
+	}
 
 	const convertConditionsToString = (conditions) => {
 		let entries = Object.entries(conditions); // convert conditions object to an array of key-value pairs
@@ -220,9 +240,9 @@ const Post = ({
 				</p>
 			)}
 			
-			{imageUrls && <Images urls={imageUrls} toggleView={toggleViewer}></Images>}
+			{imageUrls.length > 0 && <Images urls={imageUrls} toggleView={toggleViewer} showDelete={isAuthorizedUser} deleteImg={deleteImage} />}
 
-			{showImageViewer && <ImageViewer urls={imageUrls} toggleView={toggleViewer}></ImageViewer>}
+			{showImageViewer && <ImageViewer id='test'  urls={imageUrls} toggleView={toggleViewer} />}
 		</Wrapper>
 	);
 };

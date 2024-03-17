@@ -1,0 +1,31 @@
+.delete-photo {
+  opacity: 0;
+	transition: opacity 0.2s ease-in-out;
+	color: rgb(207, 207, 207);
+	position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+.img-container.show-delete:hover img {
+  opacity: 0.5
+}
+
+.img-container.show-delete:hover .delete-photo {
+  opacity: 1;
+}
+
+.img-container {
+  position: relative;
+  background-color: #111;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.delete-photo p:hover {
+  color: white;
+}
