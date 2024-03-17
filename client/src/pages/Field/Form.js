@@ -110,7 +110,6 @@ const Form = ({ toggleVisibility, formData, fieldName }) => {
 
 		if (areImagesAdded) {
 			uploadImage(key)
-			postData['imagesAdded'] = true
 		}
 
 		updatePostDatabase(postData, key);

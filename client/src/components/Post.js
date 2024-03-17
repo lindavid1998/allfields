@@ -75,7 +75,6 @@ const Post = ({
 	conditions,
 	occupancy,
 	editPost,
-	imagesAdded,
 	showIcons = true,
 	header = 'name',
 	fieldId,
@@ -116,6 +115,8 @@ const Post = ({
 					// references can be accessed using result.items
 					const result = await listAll(ref);
 
+					if (result.items.length == 0) return
+						
 					// get an array of promises 
 					// each promise fetches the url of the image
 					const promises = result.items.map(async (itemRef) => {
@@ -139,11 +140,11 @@ const Post = ({
 			fetchFieldName();
 		}
 
-		imagesAdded && fetchImages()
+		fetchImages()
 	
 		let currentUserId = getUserId(auth);
 		setIsAuthorizedUser(currentUserId === userId);
-	}, [header, userId, fieldId, postId, imagesAdded]);
+	}, [header, userId, fieldId, postId]);
 
 	const deletePost = async (postId) => {
 		try {
@@ -219,7 +220,7 @@ const Post = ({
 				</p>
 			)}
 			
-			{imagesAdded && <Images urls={imageUrls} toggleView={toggleViewer}></Images>}
+			{imageUrls && <Images urls={imageUrls} toggleView={toggleViewer}></Images>}
 
 			{showImageViewer && <ImageViewer urls={imageUrls} toggleView={toggleViewer}></ImageViewer>}
 		</Wrapper>
