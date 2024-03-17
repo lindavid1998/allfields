@@ -46,6 +46,7 @@ const ImagesContainer = styled.div`
 	gap: 10px;
 	margin-top: 10px;
 	width: fit-content;
+	flex-wrap: wrap;
 `
 
 const Image = styled.img`
