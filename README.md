@@ -10,6 +10,7 @@ AllFields is a platform for soccer enthusiasts! Users can look up field conditio
   - filter fields by neighborhood
   - view fields on a map (like Yelp)
   - post, edit, and delete reviews
+  - add images to reviews
   - favorite and unfavorite fields
   - see reviews from other users
   - see user profiles
@@ -29,13 +30,19 @@ https://allfields-570a5.web.app/
 
 ![demo](https://github.com/lindavid1998/allfields/assets/22776267/9f10bc83-6594-465e-a5cc-6e34b0c4b549)
 
+### Add images to your posts
+
+![images-demo](https://github.com/lindavid1998/allfields/assets/22776267/f15a6b10-6a65-4815-8648-88bb6ee4ad53)
+
 ## 🛠 Tech Stack
 
 **Client:** React, React Router, HTML, JS, CSS, Styled Components, Google Maps API
 
 **Server:** Firebase (Authentication, Storage, Realtime Database)
 
-This project was made with Firebase. It's a small scale passion project where the main priority is learning to build and ship out new features. Saving user data (posts) and field data (name, address, etc.) seemed suitable for the JSON-like data schema as well, thus making Firebase a good option.
+This project was made with Firebase. Why?
+
+It's a small scale passion project where the main priority is learning to build, getting a project off the ground, and shipping out new features. Saving user data (posts) and field data (name, address, etc.) seemed suitable for the JSON-like data schema as well, thus making Firebase a good option.
 
 ## Acknowledgements
 
