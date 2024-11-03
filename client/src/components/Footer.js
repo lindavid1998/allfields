@@ -7,6 +7,7 @@ const Wrapper = styled.div`
 	width: 100%;
 	background-color: var(--dark-bg-color);
 	padding: var(--home-padding);
+	flex-grow: 2;
 `;
 
 const Content = styled.div`
@@ -16,6 +17,10 @@ const Content = styled.div`
 	gap: 20px;
 	max-width: var(--max-width);
 	margin: 0 auto;
+	vertical-align: bottom;
+	height: 100%;
+	width: 100%;
+	vertical-align: bottom;
 `;
 
 const Text = styled.div`
